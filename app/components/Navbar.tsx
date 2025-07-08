@@ -22,7 +22,6 @@ export default function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
   const [activeItem, setActiveItem] = useState<string>('');
   const [language, setLanguage] = useState<'en' | 'es'>('es');
-  const [scrollY, setScrollY] = useState<number>(0);
   const [expandedService, setExpandedService] = useState<'services' | null>(null);
   const navRef = useRef<HTMLElement>(null);
   const menuItemsRef = useRef<(HTMLLIElement | null)[]>([]);
@@ -166,8 +165,8 @@ export default function Navbar() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const toggleLanguage = () => {
-    const newLang = language === 'en' ? 'es' : 'en';
+  const toggleLanguage = (): void => {
+    const newLang: 'en' | 'es' = language === 'en' ? 'es' : 'en';
     const toggle = languageToggleRef.current;
     
     if (toggle) {
@@ -176,7 +175,7 @@ export default function Navbar() {
         scale: 0.98,
         duration: 0.15,
         ease: "power2.out",
-        onComplete: () => {
+        onComplete: (): void => {
           setLanguage(newLang);
           gsap.to(toggle, {
             scale: 1,
@@ -190,11 +189,11 @@ export default function Navbar() {
     }
   };
 
-  const toggleServicesExpansion = () => {
-    const isCurrentlyExpanded = expandedService === 'services';
-    const regionColumn = document.querySelector('.regions-column');
-    const gridContainer = document.querySelector('.grid');
-    const isMobile = window.innerWidth < 1024; // lg breakpoint
+  const toggleServicesExpansion = (): void => {
+    const isCurrentlyExpanded: boolean = expandedService === 'services';
+    const regionColumn = document.querySelector('.regions-column') as HTMLElement | null;
+    const gridContainer = document.querySelector('.grid') as HTMLElement | null;
+    const isMobile: boolean = window.innerWidth < 1024; // lg breakpoint
     
     if (!isCurrentlyExpanded) {
       // Set state immediately to trigger Motion animations
@@ -229,7 +228,7 @@ export default function Navbar() {
           setTimeout(() => {
             if (isMobile) {
               // Mobile: Animate inline expansion
-              const mobileServicesColumn = document.querySelector('.services-expansion-mobile');
+              const mobileServicesColumn = document.querySelector('.services-expansion-mobile') as HTMLElement | null;
               if (mobileServicesColumn) {
                 gsap.set(mobileServicesColumn, { 
                   opacity: 0,
@@ -246,7 +245,7 @@ export default function Navbar() {
                 }, 0.2);
                 
                 // Animate individual mobile service items
-                const mobileServiceItems = mobileServicesColumn.querySelectorAll('.service-expansion-item-mobile');
+                const mobileServiceItems = mobileServicesColumn.querySelectorAll('.service-expansion-item-mobile') as NodeListOf<HTMLElement>;
                 gsap.set(mobileServiceItems, { opacity: 0, y: 15 });
                 tl.to(mobileServiceItems, {
                   opacity: 1,
@@ -258,7 +257,7 @@ export default function Navbar() {
               }
             } else {
               // Desktop: Animate side column
-              const servicesColumn = document.querySelector('.services-expansion');
+              const servicesColumn = document.querySelector('.services-expansion') as HTMLElement | null;
               if (servicesColumn) {
                 gsap.set(servicesColumn, { 
                   transformOrigin: "left center",
@@ -274,7 +273,7 @@ export default function Navbar() {
                 }, 0.2);
                 
                 // Animate individual service items
-                const serviceItems = servicesColumn.querySelectorAll('.service-expansion-item');
+                const serviceItems = servicesColumn.querySelectorAll('.service-expansion-item') as NodeListOf<HTMLElement>;
                 gsap.set(serviceItems, { opacity: 0, y: 20 });
                 tl.to(serviceItems, {
                   opacity: 1,
@@ -299,7 +298,7 @@ export default function Navbar() {
         
         // Animate services column exit first
         if (isMobile) {
-          const mobileServicesColumn = document.querySelector('.services-expansion-mobile');
+          const mobileServicesColumn = document.querySelector('.services-expansion-mobile') as HTMLElement | null;
           if (mobileServicesColumn) {
             tl.to(mobileServicesColumn, {
               opacity: 0,
@@ -310,7 +309,7 @@ export default function Navbar() {
             }, 0);
           }
         } else {
-          const servicesColumn = document.querySelector('.services-expansion');
+          const servicesColumn = document.querySelector('.services-expansion') as HTMLElement | null;
           if (servicesColumn) {
             tl.to(servicesColumn, {
               scaleX: 0,
@@ -550,7 +549,7 @@ export default function Navbar() {
   };
 
 
-  const handleNavClick = (href: string) => {
+  const handleNavClick = (href: string): void => {
     setActiveItem(href);
     
     // Handle services expansion in fullscreen menu
@@ -566,7 +565,7 @@ export default function Navbar() {
     
     // Smooth scroll to section (only if not services)
     if (href !== '#services') {
-      const element = document.querySelector(href);
+      const element = document.querySelector(href) as HTMLElement | null;
       if (element) {
         element.scrollIntoView({ behavior: 'smooth' });
       }
@@ -694,18 +693,13 @@ export default function Navbar() {
           <div className="absolute top-0 left-0 right-0 h-32 bg-gradient-to-b from-black via-zinc-950/90 to-transparent z-30 pointer-events-none" />
           
           {/* Scrollable container */}
-          <motion.div
+          <div
             ref={scrollContainerRef}
-            className="flex-1 overflow-y-auto overflow-x-hidden scrollbar-hide"
+            className="flex-1 overflow-y-auto overflow-x-hidden scrollbar-hide touch-pan-y"
             style={{
               scrollbarWidth: 'none',
-              msOverflowStyle: 'none'
-            }}
-            drag="y"
-            dragConstraints={{ top: 0, bottom: 0 }}
-            dragElastic={0.1}
-            onDrag={(event, info) => {
-              setScrollY(info.point.y);
+              msOverflowStyle: 'none',
+              WebkitOverflowScrolling: 'touch'
             }}
           >
             <div className="min-h-screen flex items-center justify-center pt-24 px-4 pb-4 sm:pt-28 sm:px-6 sm:pb-6 lg:pt-32 lg:px-8 lg:pb-8">
@@ -1041,7 +1035,7 @@ export default function Navbar() {
                 </div>
               </div>
             </div>
-          </motion.div>
+          </div>
           
           {/* Bottom fade gradient */}
           <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-black via-zinc-950/90 to-transparent z-30 pointer-events-none" />
