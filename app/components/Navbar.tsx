@@ -344,7 +344,7 @@ export default function Navbar() {
         // Delay state change to allow exit animations
         tl.call(() => {
           setExpandedService(null);
-        }, null, 0.4);
+        }, undefined, 0.4);
         
       } catch (error) {
         console.warn('GSAP animation error:', error);
