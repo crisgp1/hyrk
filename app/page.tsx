@@ -1,15 +1,83 @@
 'use client';
 
-import { motion } from 'framer-motion';
-import { useState } from 'react';
+import { motion } from 'motion/react';
+import { useState, useEffect, useRef } from 'react';
+import { gsap } from 'gsap';
+import Navbar from './components/Navbar';
+
+interface ClientProps {
+  name: string;
+  domain: string;
+  description: string;
+}
+
+interface ExpertiseProps {
+  title: string;
+  description: string;
+  icon: string;
+}
 
 export default function Home() {
-  const [searchValue, setSearchValue] = useState('');
+  const [activeClient, setActiveClient] = useState<number | null>(null);
+  const [particles, setParticles] = useState<{left: number; top: number; delay: number}[]>([]);
+  const heroRef = useRef<HTMLDivElement>(null);
+  const titleRef = useRef<HTMLHeadingElement>(null);
+  const subtitleRef = useRef<HTMLParagraphElement>(null);
+  const buttonsRef = useRef<HTMLDivElement>(null);
+  const particlesRef = useRef<HTMLDivElement>(null);
+  const clientCardsRef = useRef<(HTMLDivElement | null)[]>([]);
+  const expertiseCardsRef = useRef<(HTMLDivElement | null)[]>([]);
+
+  const clients: ClientProps[] = [
+    {
+      name: "Cliquealo",
+      domain: "cliquealo.mx",
+      description: "E-commerce platform revolutionizing online shopping in Mexico"
+    },
+    {
+      name: "Tramboory",
+      domain: "tramboory.com",
+      description: "Digital transformation solutions for modern businesses"
+    },
+    {
+      name: "Livinning",
+      domain: "livinning.com",
+      description: "Luxury lifestyle and premium service management"
+    },
+    {
+      name: "Trigger",
+      domain: "trigger.mx",
+      description: "Automated marketing and customer engagement platform"
+    }
+  ];
+
+  const expertise: ExpertiseProps[] = [
+    {
+      title: "Automotive Luxury",
+      description: "Premium automotive solutions with cutting-edge technology for luxury brands and high-end dealerships",
+      icon: "🚗"
+    },
+    {
+      title: "Financial Services",
+      description: "Secure, scalable financial platforms with compliance-first architecture and real-time processing",
+      icon: "💰"
+    },
+    {
+      title: "Client Tracking",
+      description: "Advanced CRM and customer journey analytics with AI-powered insights and automation",
+      icon: "📊"
+    },
+    {
+      title: "Digital Transformation",
+      description: "End-to-end modernization of legacy systems with cloud-native, scalable architectures",
+      icon: "⚡"
+    }
+  ];
 
   const fadeInUp = {
     initial: { opacity: 0, y: 60 },
     animate: { opacity: 1, y: 0 },
-    transition: { duration: 0.6 }
+    transition: { duration: 0.8, ease: [0.6, -0.05, 0.01, 0.99] }
   };
 
   const staggerContainer = {
@@ -21,108 +89,178 @@ export default function Home() {
     }
   };
 
-  const features = [
-    {
-      icon: '🚀',
-      title: 'Fast Performance',
-      description: 'Lightning-fast load times and smooth interactions'
-    },
-    {
-      icon: '🔒',
-      title: 'Secure',
-      description: 'Enterprise-grade security for your peace of mind'
-    },
-    {
-      icon: '💡',
-      title: 'Innovative',
-      description: 'Cutting-edge features that set us apart'
-    }
-  ];
+  useEffect(() => {
+    // Generate particles only on client-side
+    const newParticles = Array.from({length: 15}, (_, i) => ({
+      left: (i * 37 + 23) % 100, // Deterministic positioning
+      top: (i * 47 + 31) % 100,
+      delay: (i * 0.3) % 2
+    }));
+    setParticles(newParticles);
+  }, []);
+
+  useEffect(() => {
+    const hero = heroRef.current;
+    const title = titleRef.current;
+    const subtitle = subtitleRef.current;
+    const buttons = buttonsRef.current;
+    const particlesElement = particlesRef.current;
+
+    if (!hero || !title || !subtitle || !buttons || !particlesElement) return;
+
+    // Set initial states
+    gsap.set([title, subtitle, buttons], { opacity: 0, y: 60 });
+    gsap.set(particlesElement.children, { opacity: 0, scale: 0 });
+
+    // Create timeline
+    const tl = gsap.timeline({ delay: 1 });
+    
+    tl.to(title, {
+      opacity: 1,
+      y: 0,
+      duration: 1.2,
+      ease: "power3.out"
+    })
+    .to(subtitle, {
+      opacity: 1,
+      y: 0,
+      duration: 1,
+      ease: "power3.out"
+    }, "-=0.8")
+    .to(buttons, {
+      opacity: 1,
+      y: 0,
+      duration: 0.8,
+      ease: "power3.out"
+    }, "-=0.6")
+    .to(particlesElement.children, {
+      opacity: 1,
+      scale: 1,
+      duration: 0.6,
+      stagger: 0.1,
+      ease: "power2.out"
+    }, "-=0.4");
+
+    // Continuous floating animation for particles
+    gsap.to(particlesElement.children, {
+      y: "random(-30, 30)",
+      x: "random(-20, 20)",
+      duration: "random(3, 6)",
+      repeat: -1,
+      yoyo: true,
+      ease: "power1.inOut",
+      stagger: {
+        amount: 2,
+        from: "random"
+      }
+    });
+
+    // Parallax effect on scroll
+    const handleScroll = () => {
+      const scrolled = window.scrollY;
+      const rate = scrolled * -0.5;
+      
+      if (hero) {
+        hero.style.transform = `translateY(${rate}px)`;
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [particles]);
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-zinc-950 text-white font-outfit">
+      <Navbar />
       {/* Hero Section */}
-      <section className="relative h-screen flex items-center justify-center bg-gradient-to-br from-pink-50 to-blue-50">
-        <div className="absolute inset-0 bg-black/10"></div>
-        <div className="relative z-10 text-center max-w-4xl mx-auto px-4">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            className="mb-6"
-          >
-            <h1 className="text-6xl md:text-8xl font-bold bg-gradient-to-r from-pink-600 to-blue-600 bg-clip-text text-transparent mb-4">
-              hyrk.io
-            </h1>
-            <p className="text-xl md:text-2xl text-gray-600 max-w-2xl mx-auto">
-              The platform that transforms your ideas into reality
-            </p>
-          </motion.div>
+      <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-br from-zinc-900 via-zinc-950 to-black"></div>
+        
+        {/* Dynamic geometric background */}
+        <div className="absolute inset-0 overflow-hidden">
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_transparent_0%,_rgba(0,0,0,0.3)_100%)]"></div>
+          
+          {/* Animated grid */}
+          <div className="absolute inset-0 opacity-20">
+            <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.1)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.1)_1px,transparent_1px)] bg-[size:100px_100px] [mask:radial-gradient(ellipse_at_center,black_40%,transparent_70%)]" />
+          </div>
 
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-            className="mb-8"
-          >
-            <div className="flex max-w-2xl mx-auto bg-white rounded-full shadow-2xl p-2">
-              <input
-                type="text"
-                placeholder="What are you looking for?"
-                value={searchValue}
-                onChange={(e) => setSearchValue(e.target.value)}
-                className="flex-1 px-6 py-4 rounded-full border-none outline-none text-gray-700 placeholder-gray-400"
+          {/* Floating particles */}
+          <div ref={particlesRef} className="absolute inset-0">
+            {particles.map((particle, i) => (
+              <div
+                key={i}
+                className="absolute w-2 h-2 bg-gradient-to-r from-zinc-400 to-zinc-600 rounded-full"
+                style={{
+                  left: `${particle.left}%`,
+                  top: `${particle.top}%`,
+                  animationDelay: `${particle.delay}s`
+                }}
               />
-              <motion.button
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                className="bg-gradient-to-r from-pink-500 to-blue-500 text-white px-8 py-4 rounded-full font-semibold hover:shadow-lg transition-shadow"
-              >
-                Search
-              </motion.button>
-            </div>
-          </motion.div>
+            ))}
+          </div>
 
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.4 }}
-            className="flex gap-4 flex-col sm:flex-row"
+          {/* Gradient orbs */}
+          <div className="absolute top-20 left-20 w-96 h-96 bg-gradient-to-r from-zinc-800/30 to-zinc-900/30 rounded-full blur-3xl animate-pulse" />
+          <div className="absolute bottom-20 right-20 w-96 h-96 bg-gradient-to-r from-zinc-700/20 to-zinc-800/20 rounded-full blur-3xl animate-pulse" style={{animationDelay: '1s'}} />
+        </div>
+
+        <div ref={heroRef} className="relative z-10 text-center max-w-6xl mx-auto px-4">
+          <div className="mb-8">
+            <h1 
+              ref={titleRef}
+              className="text-6xl md:text-7xl lg:text-8xl font-lexend font-bold mb-6 tracking-tight leading-none"
+            >
+              <span className="bg-gradient-to-r from-white via-zinc-200 to-zinc-400 bg-clip-text text-transparent hover:from-zinc-200 hover:via-white hover:to-zinc-300 transition-all duration-500">
+                hyrk.io
+              </span>
+            </h1>
+            <p 
+              ref={subtitleRef}
+              className="text-xl md:text-2xl lg:text-3xl text-zinc-400 max-w-4xl mx-auto leading-relaxed font-light"
+            >
+              <span className="text-white font-medium">Software accelerator</span> & <span className="text-white font-medium">idea creator</span> specializing in premium solutions for <span className="text-zinc-300">luxury automotive</span>, <span className="text-zinc-300">financial services</span>, and <span className="text-zinc-300">advanced client tracking</span> systems.
+            </p>
+          </div>
+
+          <div 
+            ref={buttonsRef}
+            className="flex gap-6 flex-col sm:flex-row justify-center"
           >
             <motion.button
-              whileHover={{ scale: 1.05 }}
+              whileHover={{ scale: 1.05, boxShadow: "0 20px 40px rgba(255,255,255,0.1)" }}
               whileTap={{ scale: 0.95 }}
-              className="bg-gradient-to-r from-pink-500 to-blue-500 text-white px-12 py-4 rounded-full font-semibold text-lg shadow-xl hover:shadow-2xl transition-shadow"
+              className="bg-white text-black px-10 py-4 rounded-xl font-semibold text-lg hover:bg-zinc-200 transition-all duration-300 relative overflow-hidden group"
             >
-              Get Started
+              <span className="relative z-10">Start Your Project</span>
+              <div className="absolute inset-0 bg-gradient-to-r from-zinc-100 to-white transform translate-x-full group-hover:translate-x-0 transition-transform duration-300" />
             </motion.button>
-            <motion.a
-              href="/inside-out"
-              whileHover={{ scale: 1.05 }}
+            <motion.button
+              whileHover={{ scale: 1.05, borderColor: "rgba(255,255,255,0.5)" }}
               whileTap={{ scale: 0.95 }}
-              className="bg-gradient-to-r from-purple-500 to-pink-500 text-white px-12 py-4 rounded-full font-semibold text-lg shadow-xl hover:shadow-2xl transition-shadow"
+              className="border-2 border-zinc-700 text-white px-10 py-4 rounded-xl font-semibold text-lg hover:bg-zinc-900/50 transition-all duration-300 backdrop-blur-sm"
             >
-              🎭 Emotion Orbs
-            </motion.a>
-          </motion.div>
+              View Our Work
+            </motion.button>
+          </div>
         </div>
       </section>
 
-      {/* Features Section */}
-      <section className="py-24 bg-white">
+      {/* Clients Section */}
+      <section id="clients" className="py-32 bg-zinc-900">
         <div className="max-w-7xl mx-auto px-4">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
+            transition={{ duration: 0.8 }}
             viewport={{ once: true }}
-            className="text-center mb-16"
+            className="text-center mb-20"
           >
-            <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
-              Why Choose hyrk.io?
+            <h2 className="text-4xl md:text-6xl font-lexend font-bold text-white mb-6">
+              Trusted by Industry Leaders
             </h2>
-            <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-              Discover the features that make us the preferred choice for thousands of users
+            <p className="text-xl text-zinc-400 max-w-2xl mx-auto">
+              We've partnered with innovative companies to transform their ideas into market-leading solutions.
             </p>
           </motion.div>
 
@@ -131,161 +269,278 @@ export default function Home() {
             initial="initial"
             whileInView="animate"
             viewport={{ once: true }}
-            className="grid md:grid-cols-3 gap-8"
+            className="grid md:grid-cols-2 lg:grid-cols-4 gap-8"
           >
-            {features.map((feature, index) => (
+            {clients.map((client, index) => (
               <motion.div
                 key={index}
+                ref={(el) => {
+                  clientCardsRef.current[index] = el;
+                }}
                 variants={fadeInUp}
-                className="text-center p-8 rounded-3xl hover:shadow-xl transition-shadow bg-gradient-to-br from-gray-50 to-white border border-gray-100"
+                className="group bg-gradient-to-br from-zinc-800 to-zinc-900 border border-zinc-700 p-8 transition-all duration-500 cursor-pointer relative overflow-hidden"
+                onMouseEnter={() => {
+                  setActiveClient(index);
+                  const card = clientCardsRef.current[index];
+                  if (card) {
+                    gsap.to(card, {
+                      boxShadow: "0 0 60px rgba(255,255,255,0.15), 0 0 120px rgba(255,255,255,0.08), inset 0 0 40px rgba(255,255,255,0.05)",
+                      borderColor: "rgba(255,255,255,0.3)",
+                      duration: 0.6,
+                      ease: "power2.out"
+                    });
+                  }
+                }}
+                onMouseLeave={() => {
+                  setActiveClient(null);
+                  const card = clientCardsRef.current[index];
+                  if (card) {
+                    gsap.to(card, {
+                      boxShadow: "0 0 0px rgba(255,255,255,0), 0 0 0px rgba(255,255,255,0), inset 0 0 0px rgba(255,255,255,0)",
+                      borderColor: "rgba(113, 113, 122, 1)",
+                      duration: 0.6,
+                      ease: "power2.out"
+                    });
+                  }
+                }}
+                whileHover={{ 
+                  scale: 1.02
+                }}
               >
-                <motion.div
-                  whileHover={{ scale: 1.1, rotate: 5 }}
-                  className="text-6xl mb-6"
-                >
-                  {feature.icon}
-                </motion.div>
-                <h3 className="text-2xl font-bold text-gray-900 mb-4">
-                  {feature.title}
-                </h3>
-                <p className="text-gray-600 leading-relaxed">
-                  {feature.description}
-                </p>
+                {/* Subtle inner glow */}
+                <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
+                
+                {/* Ambient light effect */}
+                <div className="absolute -inset-4 bg-gradient-radial from-white/10 via-transparent to-transparent opacity-0 group-hover:opacity-30 transition-opacity duration-700 blur-xl" />
+                
+                <div className="relative z-10 text-center">
+                  <motion.div
+                    className="w-16 h-16 mx-auto mb-4 bg-gradient-to-r from-zinc-700 to-zinc-600 flex items-center justify-center group-hover:bg-gradient-to-r group-hover:from-zinc-600 group-hover:to-zinc-500 transition-all duration-500"
+                    whileHover={{ 
+                      scale: 1.1,
+                      filter: "brightness(1.2)"
+                    }}
+                    transition={{ duration: 0.4 }}
+                  >
+                    <span className="text-white font-bold text-lg group-hover:text-zinc-100 transition-colors">
+                      {client.name.charAt(0)}
+                    </span>
+                  </motion.div>
+                  
+                  <h3 className="text-2xl font-lexend font-bold text-white mb-2 group-hover:text-zinc-50 transition-colors duration-300">
+                    {client.name}
+                  </h3>
+                  <p className="text-zinc-400 mb-4 font-mono text-sm group-hover:text-zinc-200 transition-colors duration-300">
+                    {client.domain}
+                  </p>
+                  <motion.p
+                    initial={{ opacity: 0, height: 0 }}
+                    animate={{ 
+                      opacity: activeClient === index ? 1 : 0,
+                      height: activeClient === index ? 'auto' : 0
+                    }}
+                    transition={{ duration: 0.4, ease: "easeInOut" }}
+                    className="text-zinc-300 text-sm leading-relaxed overflow-hidden group-hover:text-zinc-100"
+                  >
+                    {client.description}
+                  </motion.p>
+                </div>
               </motion.div>
             ))}
           </motion.div>
         </div>
       </section>
 
-      {/* How It Works Section */}
-      <section className="py-24 bg-gradient-to-br from-gray-50 to-white">
+      {/* Expertise Section */}
+      <section id="services" className="py-32 bg-zinc-950">
         <div className="max-w-7xl mx-auto px-4">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
+            transition={{ duration: 0.8 }}
             viewport={{ once: true }}
-            className="text-center mb-16"
+            className="text-center mb-20"
           >
-            <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
-              How It Works
+            <h2 className="text-4xl md:text-6xl font-lexend font-bold text-white mb-6">
+              Our Expertise
             </h2>
-            <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-              Get started in three simple steps
+            <p className="text-xl text-zinc-400 max-w-3xl mx-auto">
+              Specialized solutions across high-value industries, delivering premium software that drives business transformation.
             </p>
           </motion.div>
 
-          <div className="grid md:grid-cols-3 gap-8">
-            {[
-              { step: '1', title: 'Sign Up', description: 'Create your account in seconds' },
-              { step: '2', title: 'Explore', description: 'Discover amazing features and tools' },
-              { step: '3', title: 'Achieve', description: 'Turn your ideas into reality' }
-            ].map((item, index) => (
+          <motion.div
+            variants={staggerContainer}
+            initial="initial"
+            whileInView="animate"
+            viewport={{ once: true }}
+            className="grid md:grid-cols-2 gap-8"
+          >
+            {expertise.map((item, index) => (
               <motion.div
                 key={index}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: index * 0.1 }}
-                viewport={{ once: true }}
-                className="text-center"
+                ref={(el) => {
+                  expertiseCardsRef.current[index] = el;
+                }}
+                variants={fadeInUp}
+                className="group bg-gradient-to-br from-zinc-900 to-zinc-800 border border-zinc-700 p-8 transition-all duration-500 relative overflow-hidden"
+                onMouseEnter={() => {
+                  const card = expertiseCardsRef.current[index];
+                  if (card) {
+                    gsap.to(card, {
+                      boxShadow: "0 0 80px rgba(255,255,255,0.12), 0 0 150px rgba(255,255,255,0.06), inset 0 0 50px rgba(255,255,255,0.04)",
+                      borderColor: "rgba(255,255,255,0.25)",
+                      duration: 0.7,
+                      ease: "power2.out"
+                    });
+                  }
+                }}
+                onMouseLeave={() => {
+                  const card = expertiseCardsRef.current[index];
+                  if (card) {
+                    gsap.to(card, {
+                      boxShadow: "0 0 0px rgba(255,255,255,0), 0 0 0px rgba(255,255,255,0), inset 0 0 0px rgba(255,255,255,0)",
+                      borderColor: "rgba(113, 113, 122, 1)",
+                      duration: 0.7,
+                      ease: "power2.out"
+                    });
+                  }
+                }}
+                whileHover={{ 
+                  scale: 1.01
+                }}
               >
-                <motion.div
-                  whileHover={{ scale: 1.1 }}
-                  className="w-20 h-20 bg-gradient-to-r from-pink-500 to-blue-500 rounded-full flex items-center justify-center text-white text-2xl font-bold mx-auto mb-6"
-                >
-                  {item.step}
-                </motion.div>
-                <h3 className="text-2xl font-bold text-gray-900 mb-4">
-                  {item.title}
-                </h3>
-                <p className="text-gray-600">
-                  {item.description}
-                </p>
+                {/* Subtle inner glow */}
+                <div className="absolute inset-0 bg-gradient-to-br from-white/3 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-800" />
+                
+                {/* Ambient light effect */}
+                <div className="absolute -inset-6 bg-gradient-radial from-white/8 via-transparent to-transparent opacity-0 group-hover:opacity-40 transition-opacity duration-800 blur-2xl" />
+                
+                {/* Animated background pattern */}
+                <div className="absolute inset-0 opacity-3 group-hover:opacity-8 transition-opacity duration-700">
+                  <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_rgba(255,255,255,0.1)_1px,transparent_1px)] bg-[size:20px_20px] transform group-hover:scale-110 transition-transform duration-700" />
+                </div>
+                
+                {/* Glowing accent line */}
+                <div className="absolute top-0 left-0 w-full h-0.5 bg-gradient-to-r from-transparent via-white/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                
+                <div className="relative z-10 flex items-start gap-6">
+                  <motion.div 
+                    className="text-5xl p-4 bg-zinc-800 group-hover:bg-zinc-700 transition-all duration-300"
+                    whileHover={{ 
+                      scale: 1.05,
+                      filter: "brightness(1.3)"
+                    }}
+                    transition={{ duration: 0.4 }}
+                  >
+                    {item.icon}
+                  </motion.div>
+                  <div className="flex-1">
+                    <h3 className="text-2xl font-lexend font-bold text-white mb-4 group-hover:text-zinc-50 transition-colors duration-300">
+                      {item.title}
+                    </h3>
+                    <p className="text-zinc-400 leading-relaxed group-hover:text-zinc-200 transition-colors duration-300">
+                      {item.description}
+                    </p>
+                    
+                    {/* Animated progress bar */}
+                    <motion.div
+                      className="mt-6 h-1 bg-zinc-700 overflow-hidden group-hover:bg-zinc-600 transition-colors duration-300"
+                      initial={{ width: 0 }}
+                      whileInView={{ width: "100%" }}
+                      transition={{ duration: 1, delay: index * 0.2 }}
+                    >
+                      <motion.div
+                        className="h-full bg-gradient-to-r from-zinc-500 to-zinc-400 group-hover:from-zinc-400 group-hover:to-zinc-300"
+                        initial={{ width: 0 }}
+                        whileInView={{ width: "100%" }}
+                        transition={{ duration: 1.5, delay: index * 0.2 }}
+                      />
+                    </motion.div>
+                  </div>
+                </div>
               </motion.div>
             ))}
-          </div>
+          </motion.div>
         </div>
       </section>
 
-      {/* Social Proof Section */}
-      <section className="py-24 bg-white">
+      {/* Stats Section */}
+      <section id="about" className="py-32 bg-zinc-900">
         <div className="max-w-7xl mx-auto px-4">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
+            transition={{ duration: 0.8 }}
             viewport={{ once: true }}
-            className="text-center mb-16"
+            className="grid md:grid-cols-4 gap-8 text-center"
           >
-            <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
-              Trusted by Thousands
-            </h2>
-            <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-              Join the community that's already achieving great things
-            </p>
-          </motion.div>
-
-          <div className="grid md:grid-cols-4 gap-8">
             {[
-              { number: '10K+', label: 'Happy Users' },
-              { number: '99%', label: 'Satisfaction Rate' },
-              { number: '24/7', label: 'Support Available' },
-              { number: '50+', label: 'Countries Served' }
+              { number: '50+', label: 'Projects Delivered' },
+              { number: '100%', label: 'Client Satisfaction' },
+              { number: '24/7', label: 'Support Coverage' },
+              { number: '10+', label: 'Years Experience' }
             ].map((stat, index) => (
               <motion.div
                 key={index}
                 initial={{ opacity: 0, scale: 0.8 }}
                 whileInView={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.6, delay: index * 0.1 }}
+                transition={{ duration: 0.8, delay: index * 0.1 }}
                 viewport={{ once: true }}
-                className="text-center"
+                className="group"
               >
-                <div className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-pink-600 to-blue-600 bg-clip-text text-transparent mb-2">
+                <div className="text-5xl md:text-6xl font-lexend font-bold text-white mb-2 group-hover:text-zinc-300 transition-colors">
                   {stat.number}
                 </div>
-                <div className="text-gray-600 font-medium">
+                <div className="text-zinc-400 font-medium text-lg">
                   {stat.label}
                 </div>
               </motion.div>
             ))}
-          </div>
+          </motion.div>
         </div>
       </section>
 
-      {/* Footer */}
-      <footer className="bg-gray-900 text-white py-16">
-        <div className="max-w-7xl mx-auto px-4">
+      {/* CTA Section */}
+      <section id="contact" className="py-32 bg-gradient-to-br from-zinc-950 to-black">
+        <div className="max-w-4xl mx-auto px-4 text-center">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
+            transition={{ duration: 0.8 }}
             viewport={{ once: true }}
-            className="text-center"
           >
-            <h3 className="text-3xl font-bold mb-4">
-              Ready to get started?
-            </h3>
-            <p className="text-gray-400 mb-8 max-w-2xl mx-auto">
-              Join thousands of users who have already transformed their ideas into reality
+            <h2 className="text-4xl md:text-6xl font-lexend font-bold text-white mb-6">
+              Ready to Transform Your Ideas?
+            </h2>
+            <p className="text-xl text-zinc-400 mb-12 max-w-2xl mx-auto">
+              Join the elite companies that trust hyrk.io to accelerate their software development and bring their most ambitious ideas to life.
             </p>
             <motion.button
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              className="bg-gradient-to-r from-pink-500 to-blue-500 text-white px-12 py-4 rounded-full font-semibold text-lg shadow-xl hover:shadow-2xl transition-shadow"
+              className="bg-white text-black px-12 py-4 rounded-lg font-semibold text-lg hover:bg-zinc-200 transition-colors"
             >
-              Start Your Journey
+              Get Started Today
             </motion.button>
           </motion.div>
+        </div>
+      </section>
 
-          <motion.div
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-            viewport={{ once: true }}
-            className="mt-16 pt-8 border-t border-gray-800 text-center text-gray-400"
-          >
-            <p>&copy; 2024 hyrk.io. All rights reserved.</p>
-          </motion.div>
+      {/* Footer */}
+      <footer className="bg-black py-16 border-t border-zinc-800">
+        <div className="max-w-7xl mx-auto px-4">
+          <div className="text-center">
+            <div className="text-3xl font-lexend font-bold text-white mb-4">
+              hyrk.io
+            </div>
+            <p className="text-zinc-500 mb-8">
+              Premium software accelerator & idea creator
+            </p>
+            <div className="text-zinc-600 text-sm">
+              © 2024 hyrk.io. All rights reserved.
+            </div>
+          </div>
         </div>
       </footer>
     </div>
