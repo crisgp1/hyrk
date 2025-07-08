@@ -27,7 +27,7 @@ const emotions = [
 
 export default function InsideOutOrbs() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const animationRef = useRef<number>();
+  const animationRef = useRef<number | undefined>(undefined);
   const orbsRef = useRef<Orb[]>([]);
   const mouseRef = useRef({ x: 0, y: 0 });
   const [selectedOrb, setSelectedOrb] = useState<Orb | null>(null);
