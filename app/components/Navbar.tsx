@@ -629,18 +629,34 @@ export default function Navbar() {
                                 </div>
                                 <motion.div
                                   className="w-8 h-8 border border-zinc-600 flex items-center justify-center group-hover:border-white group-hover:bg-white group-hover:text-black transition-all duration-300 flex-shrink-0 ml-4"
-                                  whileHover={{ scale: 1.1, rotate: 90 }}
-                                  animate={{ 
-                                    rotate: item.href === '#services' && expandedService ? 90 : 0 
+                                  whileHover={{ 
+                                    scale: 1.1,
+                                    transition: { type: "spring", stiffness: 400, damping: 25 }
                                   }}
-                                  transition={{ duration: 0.2 }}
+                                  animate={{ 
+                                    rotate: item.href === '#services' && expandedService ? 90 : 0,
+                                    scale: item.href === '#services' && expandedService ? 1.05 : 1
+                                  }}
+                                  transition={{ 
+                                    type: "spring",
+                                    stiffness: 300,
+                                    damping: 30,
+                                    mass: 1
+                                  }}
                                 >
                                   <motion.span 
                                     className="text-sm"
+                                    initial={false}
                                     animate={{ 
-                                      rotate: item.href === '#services' && expandedService ? 90 : 0 
+                                      opacity: item.href === '#services' && expandedService ? 0.9 : 1,
+                                      x: item.href === '#services' && expandedService ? 1 : 0
                                     }}
-                                    transition={{ duration: 0.2 }}
+                                    transition={{ 
+                                      type: "spring",
+                                      stiffness: 400,
+                                      damping: 25,
+                                      mass: 0.8
+                                    }}
                                   >
                                     →
                                   </motion.span>
