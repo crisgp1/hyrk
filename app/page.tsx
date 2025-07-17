@@ -4,6 +4,7 @@ import { motion } from 'motion/react';
 import { useState, useEffect, useRef } from 'react';
 import { gsap } from 'gsap';
 import Navbar from './components/Navbar';
+import { useLanguage } from './contexts/LanguageContext';
 
 interface ClientProps {
   name: string;
@@ -18,6 +19,7 @@ interface ExpertiseProps {
 }
 
 export default function Home() {
+  const { t } = useLanguage();
   const [activeClient, setActiveClient] = useState<number | null>(null);
   const [particles, setParticles] = useState<{left: number; top: number; delay: number}[]>([]);
   const heroRef = useRef<HTMLDivElement>(null);
@@ -32,44 +34,44 @@ export default function Home() {
     {
       name: "Cliquealo",
       domain: "cliquealo.mx",
-      description: "E-commerce platform revolutionizing online shopping in Mexico"
+      description: t.home.cliquealoDesc
     },
     {
       name: "Tramboory",
       domain: "tramboory.com",
-      description: "Digital transformation solutions for modern businesses"
+      description: t.home.trambooryDesc
     },
     {
       name: "Livinning",
       domain: "livinning.com",
-      description: "Luxury lifestyle and premium service management"
+      description: t.home.livinningDesc
     },
     {
       name: "Trigger",
       domain: "trigger.mx",
-      description: "Automated marketing and customer engagement platform"
+      description: t.home.triggerDesc
     }
   ];
 
   const expertise: ExpertiseProps[] = [
     {
-      title: "Automotive Luxury",
-      description: "Premium automotive solutions with cutting-edge technology for luxury brands and high-end dealerships",
+      title: t.home.automotiveLuxury,
+      description: t.home.automotiveLuxuryDesc,
       icon: "🚗"
     },
     {
-      title: "Financial Services",
-      description: "Secure, scalable financial platforms with compliance-first architecture and real-time processing",
+      title: t.home.financialServices,
+      description: t.home.financialServicesDesc,
       icon: "💰"
     },
     {
-      title: "Client Tracking",
-      description: "Advanced CRM and customer journey analytics with AI-powered insights and automation",
+      title: t.home.clientTracking,
+      description: t.home.clientTrackingDesc,
       icon: "📊"
     },
     {
-      title: "Digital Transformation",
-      description: "End-to-end modernization of legacy systems with cloud-native, scalable architectures",
+      title: t.home.digitalTransformation,
+      description: t.home.digitalTransformationDesc,
       icon: "⚡"
     }
   ];
@@ -219,7 +221,7 @@ export default function Home() {
               ref={subtitleRef}
               className="text-xl md:text-2xl lg:text-3xl text-zinc-400 max-w-4xl mx-auto leading-relaxed font-light"
             >
-              <span className="text-white font-medium">Software accelerator</span> & <span className="text-white font-medium">idea creator</span> specializing in premium solutions for <span className="text-zinc-300">luxury automotive</span>, <span className="text-zinc-300">financial services</span>, and <span className="text-zinc-300">advanced client tracking</span> systems.
+              <span className="text-white font-medium">{t.home.subtitle1}</span> & <span className="text-white font-medium">{t.home.subtitle2}</span> {t.home.subtitle3} <span className="text-zinc-300">{t.home.subtitle4}</span>, <span className="text-zinc-300">{t.home.subtitle5}</span>, y <span className="text-zinc-300">{t.home.subtitle6}</span> {t.home.subtitle7}.
             </p>
           </div>
 
@@ -232,7 +234,7 @@ export default function Home() {
               whileTap={{ scale: 0.95 }}
               className="bg-white text-black px-10 py-4 rounded-xl font-semibold text-lg hover:bg-zinc-200 transition-all duration-300 relative overflow-hidden group"
             >
-              <span className="relative z-10">Start Your Project</span>
+              <span className="relative z-10">{t.home.startYourProject}</span>
               <div className="absolute inset-0 bg-gradient-to-r from-zinc-100 to-white transform translate-x-full group-hover:translate-x-0 transition-transform duration-300" />
             </motion.button>
             <motion.button
@@ -240,7 +242,7 @@ export default function Home() {
               whileTap={{ scale: 0.95 }}
               className="border-2 border-zinc-700 text-white px-10 py-4 rounded-xl font-semibold text-lg hover:bg-zinc-900/50 transition-all duration-300 backdrop-blur-sm"
             >
-              View Our Work
+              {t.home.viewOurWork}
             </motion.button>
           </div>
         </div>
@@ -257,10 +259,10 @@ export default function Home() {
             className="text-center mb-20"
           >
             <h2 className="text-4xl md:text-6xl font-lexend font-bold text-white mb-6">
-              Trusted by Industry Leaders
+              {t.home.trustedByLeaders}
             </h2>
             <p className="text-xl text-zinc-400 max-w-2xl mx-auto">
-              We've partnered with innovative companies to transform their ideas into market-leading solutions.
+              {t.home.trustedByLeadersDesc}
             </p>
           </motion.div>
 
@@ -362,10 +364,10 @@ export default function Home() {
             className="text-center mb-20"
           >
             <h2 className="text-4xl md:text-6xl font-lexend font-bold text-white mb-6">
-              Our Expertise
+              {t.home.ourExpertise}
             </h2>
             <p className="text-xl text-zinc-400 max-w-3xl mx-auto">
-              Specialized solutions across high-value industries, delivering premium software that drives business transformation.
+              {t.home.ourExpertiseDesc}
             </p>
           </motion.div>
 
@@ -476,10 +478,10 @@ export default function Home() {
             className="grid md:grid-cols-4 gap-8 text-center"
           >
             {[
-              { number: '50+', label: 'Projects Delivered' },
-              { number: '100%', label: 'Client Satisfaction' },
-              { number: '24/7', label: 'Support Coverage' },
-              { number: '10+', label: 'Years Experience' }
+              { number: '50+', label: t.home.projectsDelivered },
+              { number: '100%', label: t.home.clientSatisfaction },
+              { number: '24/7', label: t.home.supportCoverage },
+              { number: '10+', label: t.home.yearsExperience }
             ].map((stat, index) => (
               <motion.div
                 key={index}
@@ -511,17 +513,17 @@ export default function Home() {
             viewport={{ once: true }}
           >
             <h2 className="text-4xl md:text-6xl font-lexend font-bold text-white mb-6">
-              Ready to Transform Your Ideas?
+              {t.home.readyToTransform}
             </h2>
             <p className="text-xl text-zinc-400 mb-12 max-w-2xl mx-auto">
-              Join the elite companies that trust hyrk.io to accelerate their software development and bring their most ambitious ideas to life.
+              {t.home.readyToTransformDesc}
             </p>
             <motion.button
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               className="bg-white text-black px-12 py-4 rounded-lg font-semibold text-lg hover:bg-zinc-200 transition-colors"
             >
-              Get Started Today
+              {t.home.getStartedToday}
             </motion.button>
           </motion.div>
         </div>
@@ -535,10 +537,10 @@ export default function Home() {
               hyrk.io
             </div>
             <p className="text-zinc-500 mb-8">
-              Premium software accelerator & idea creator
+              {t.home.premiumAccelerator}
             </p>
             <div className="text-zinc-600 text-sm">
-              © 2024 hyrk.io. All rights reserved.
+              © 2024 hyrk.io. {t.home.allRightsReserved}
             </div>
           </div>
         </div>

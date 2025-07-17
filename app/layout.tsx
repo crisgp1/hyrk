@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Lexend, Outfit } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
+import { LanguageProvider } from "./contexts/LanguageContext";
 import "./globals.css";
 
 const lexend = Lexend({
@@ -24,12 +25,14 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="es">
       <body
         className={`${lexend.variable} ${outfit.variable} antialiased`}
       >
-        {children}
-        <Analytics />
+        <LanguageProvider defaultLanguage="es">
+          {children}
+          <Analytics />
+        </LanguageProvider>
       </body>
     </html>
   );

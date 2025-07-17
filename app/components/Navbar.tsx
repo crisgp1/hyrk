@@ -3,6 +3,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { gsap } from 'gsap';
 import { motion, AnimatePresence } from 'motion/react';
+import { useLanguage } from '../contexts/LanguageContext';
 
 interface NavItem {
   name: { en: string; es: string };
@@ -21,8 +22,8 @@ interface Region {
 export default function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
   const [activeItem, setActiveItem] = useState<string>('');
-  const [language, setLanguage] = useState<'en' | 'es'>('es');
   const [expandedService, setExpandedService] = useState<'services' | null>(null);
+  const { language, setLanguage, t } = useLanguage();
   const navRef = useRef<HTMLElement>(null);
   const menuItemsRef = useRef<(HTMLLIElement | null)[]>([]);
   const hamburgerRef = useRef<HTMLDivElement>(null);
@@ -34,27 +35,27 @@ export default function Navbar() {
 
   const navItems: NavItem[] = [
     { 
-      name: { en: 'Services', es: 'Servicios' }, 
+      name: { en: t.navbar.services, es: t.navbar.services }, 
       href: '#services', 
-      description: { en: 'Our expertise & solutions', es: 'Nuestra experiencia y soluciones' }, 
+      description: { en: t.navbar.servicesDescription, es: t.navbar.servicesDescription }, 
       number: '01' 
     },
     { 
-      name: { en: 'Clients', es: 'Clientes' }, 
+      name: { en: t.navbar.clients, es: t.navbar.clients }, 
       href: '#clients', 
-      description: { en: 'Success stories & partnerships', es: 'Casos de éxito y alianzas' }, 
+      description: { en: t.navbar.clientsDescription, es: t.navbar.clientsDescription }, 
       number: '02' 
     },
     { 
-      name: { en: 'About', es: 'Nosotros' }, 
+      name: { en: t.navbar.about, es: t.navbar.about }, 
       href: '#about', 
-      description: { en: 'Our story & mission', es: 'Nuestra historia y misión' }, 
+      description: { en: t.navbar.aboutDescription, es: t.navbar.aboutDescription }, 
       number: '03' 
     },
     { 
-      name: { en: 'Contact', es: 'Contacto' }, 
+      name: { en: t.navbar.contact, es: t.navbar.contact }, 
       href: '#contact', 
-      description: { en: 'Get in touch with us', es: 'Ponte en contacto con nosotros' }, 
+      description: { en: t.navbar.contactDescription, es: t.navbar.contactDescription }, 
       number: '04' 
     },
   ];
@@ -67,52 +68,39 @@ export default function Navbar() {
 
   const services = [
     {
-      name: { en: 'Software Consultancy', es: 'Consultoría de Software' },
-      description: { en: 'Strategic guidance for your tech decisions', es: 'Orientación estratégica para tus decisiones tecnológicas' }
+      name: { en: t.navbar.softwareConsultancy, es: t.navbar.softwareConsultancy },
+      description: { en: t.navbar.softwareConsultancyDesc, es: t.navbar.softwareConsultancyDesc }
     },
     {
-      name: { en: 'Software Development', es: 'Desarrollo de Software' },
-      description: { en: 'Custom solutions built to your specifications', es: 'Soluciones personalizadas a tu medida' }
+      name: { en: t.navbar.softwareDevelopment, es: t.navbar.softwareDevelopment },
+      description: { en: t.navbar.softwareDevelopmentDesc, es: t.navbar.softwareDevelopmentDesc }
     },
     {
-      name: { en: 'Cloud Products', es: 'Productos en la Nube' },
-      description: { en: 'Scalable cloud-native applications', es: 'Aplicaciones escalables nativas en la nube' }
+      name: { en: t.navbar.cloudProducts, es: t.navbar.cloudProducts },
+      description: { en: t.navbar.cloudProductsDesc, es: t.navbar.cloudProductsDesc }
     },
     {
-      name: { en: 'E-commerce Solutions', es: 'Soluciones E-commerce' },
-      description: { en: 'Complete online store platforms', es: 'Plataformas completas de tienda online' }
+      name: { en: t.navbar.ecommerceSolutions, es: t.navbar.ecommerceSolutions },
+      description: { en: t.navbar.ecommerceSolutionsDesc, es: t.navbar.ecommerceSolutionsDesc }
     },
     {
-      name: { en: 'Process Digitalization', es: 'Digitalización de Procesos' },
-      description: { en: 'Transform manual workflows into digital systems', es: 'Transforma flujos manuales en sistemas digitales' }
+      name: { en: t.navbar.processDigitalization, es: t.navbar.processDigitalization },
+      description: { en: t.navbar.processDigitalizationDesc, es: t.navbar.processDigitalizationDesc }
     }
   ];
 
   const content = {
-    en: {
-      navigation: 'Navigation',
-      getInTouch: 'Get in Touch',
-      availableRegions: 'Available Regions',
-      international: 'International',
-      followUs: 'Follow Us',
-      startProject: 'Start Your Project',
-      getStarted: 'Get Started',
-      copyright: 'All rights reserved.',
-      email: 'Email',
-      phone: 'Phone'
-    },
-    es: {
-      navigation: 'Navegación',
-      getInTouch: 'Contacto',
-      availableRegions: 'Regiones Disponibles',
-      international: 'Internacional',
-      followUs: 'Síguenos',
-      startProject: 'Inicia tu Proyecto',
-      getStarted: 'Comenzar',
-      copyright: 'Todos los derechos reservados.',
-      email: 'Correo',
-      phone: 'Teléfono'
-    }
+    navigation: t.navbar.navigation,
+    getInTouch: t.navbar.getInTouch,
+    availableRegions: t.navbar.availableRegions,
+    international: t.navbar.international,
+    followUs: t.navbar.followUs,
+    startProject: t.navbar.startProject,
+    getStarted: t.navbar.getStarted,
+    copyright: t.navbar.copyright,
+    email: t.navbar.email,
+    phone: t.navbar.phone,
+    ourServices: t.navbar.ourServices
   };
 
   useEffect(() => {
@@ -166,7 +154,7 @@ export default function Navbar() {
   }, []);
 
   const toggleLanguage = (): void => {
-    const newLang: 'en' | 'es' = language === 'en' ? 'es' : 'en';
+    const newLang = language === 'en' ? 'es' : 'en';
     const toggle = languageToggleRef.current;
     
     if (toggle) {
@@ -191,164 +179,60 @@ export default function Navbar() {
 
   const toggleServicesExpansion = (): void => {
     const isCurrentlyExpanded: boolean = expandedService === 'services';
-    const regionColumn = document.querySelector('.regions-column') as HTMLElement | null;
-    const gridContainer = document.querySelector('.grid') as HTMLElement | null;
     const isMobile: boolean = window.innerWidth < 1024; // lg breakpoint
     
     if (!isCurrentlyExpanded) {
       // Set state immediately to trigger Motion animations
       setExpandedService('services');
       
-      // Enhanced GSAP animations with responsive behavior
-      setTimeout(() => {
-        try {
-          // Create a timeline for coordinated animations
-          const tl = gsap.timeline();
-          
-          // Animate grid layout expansion
-          if (gridContainer) {
-            tl.to(gridContainer, {
-              filter: "brightness(1.05)",
-              duration: 0.8,
-              ease: "power2.out"
-            }, 0);
-          }
-          
-          // Desktop: Slide region column, Mobile: No transform
-          if (regionColumn && !isMobile) {
-            tl.to(regionColumn, {
-              x: 20,
-              scale: 0.98,
-              duration: 1.2,
-              ease: "elastic.out(1, 0.3)"
-            }, 0.1);
-          }
-          
-          // Animate services column entrance
-          setTimeout(() => {
-            if (isMobile) {
-              // Mobile: Animate inline expansion
-              const mobileServicesColumn = document.querySelector('.services-expansion-mobile') as HTMLElement | null;
-              if (mobileServicesColumn) {
-                gsap.set(mobileServicesColumn, { 
-                  opacity: 0,
-                  height: 0,
-                  y: -20
-                });
-                
-                tl.to(mobileServicesColumn, {
-                  opacity: 1,
-                  height: 'auto',
-                  y: 0,
-                  duration: 0.8,
-                  ease: "power2.out"
-                }, 0.2);
-                
-                // Animate individual mobile service items
-                const mobileServiceItems = mobileServicesColumn.querySelectorAll('.service-expansion-item-mobile') as NodeListOf<HTMLElement>;
-                gsap.set(mobileServiceItems, { opacity: 0, y: 15 });
-                tl.to(mobileServiceItems, {
-                  opacity: 1,
-                  y: 0,
-                  duration: 0.5,
-                  stagger: 0.08,
-                  ease: "power2.out"
-                }, 0.4);
-              }
-            } else {
-              // Desktop: Animate side column
-              const servicesColumn = document.querySelector('.services-expansion') as HTMLElement | null;
-              if (servicesColumn) {
-                gsap.set(servicesColumn, { 
-                  transformOrigin: "left center",
-                  scaleX: 0,
-                  opacity: 0 
-                });
-                
-                tl.to(servicesColumn, {
-                  scaleX: 1,
-                  opacity: 1,
-                  duration: 1,
-                  ease: "power3.out"
-                }, 0.2);
-                
-                // Animate individual service items
-                const serviceItems = servicesColumn.querySelectorAll('.service-expansion-item') as NodeListOf<HTMLElement>;
-                gsap.set(serviceItems, { opacity: 0, y: 20 });
-                tl.to(serviceItems, {
-                  opacity: 1,
-                  y: 0,
-                  duration: 0.6,
-                  stagger: 0.1,
-                  ease: "power2.out"
-                }, 0.6);
-              }
-            }
-          }, 100);
-          
-        } catch (error) {
-          console.warn('GSAP animation error:', error);
+      // For desktop, add subtle animations to complement Framer Motion
+      if (!isMobile) {
+        const regionColumn = document.querySelector('.regions-column') as HTMLElement | null;
+        const gridContainer = document.querySelector('.grid') as HTMLElement | null;
+        
+        if (regionColumn) {
+          gsap.to(regionColumn, {
+            x: 20,
+            scale: 0.98,
+            duration: 0.3,
+            ease: "power2.out"
+          });
         }
-      }, 50);
-      
+        
+        if (gridContainer) {
+          gsap.to(gridContainer, {
+            filter: "brightness(1.05)",
+            duration: 0.3,
+            ease: "power2.out"
+          });
+        }
+      }
     } else {
-      // Enhanced exit animations
-      try {
-        const tl = gsap.timeline();
+      // For desktop, reset animations
+      if (!isMobile) {
+        const regionColumn = document.querySelector('.regions-column') as HTMLElement | null;
+        const gridContainer = document.querySelector('.grid') as HTMLElement | null;
         
-        // Animate services column exit first
-        if (isMobile) {
-          const mobileServicesColumn = document.querySelector('.services-expansion-mobile') as HTMLElement | null;
-          if (mobileServicesColumn) {
-            tl.to(mobileServicesColumn, {
-              opacity: 0,
-              height: 0,
-              y: -20,
-              duration: 0.5,
-              ease: "power2.in"
-            }, 0);
-          }
-        } else {
-          const servicesColumn = document.querySelector('.services-expansion') as HTMLElement | null;
-          if (servicesColumn) {
-            tl.to(servicesColumn, {
-              scaleX: 0,
-              opacity: 0,
-              duration: 0.6,
-              ease: "power2.in",
-              transformOrigin: "left center"
-            }, 0);
-          }
-        }
-        
-        // Return region column to position (desktop only)
-        if (regionColumn && !isMobile) {
-          tl.to(regionColumn, {
+        if (regionColumn) {
+          gsap.to(regionColumn, {
             x: 0,
             scale: 1,
-            duration: 0.8,
-            ease: "power3.out"
-          }, 0.2);
-        }
-        
-        // Remove ambient lighting
-        if (gridContainer) {
-          tl.to(gridContainer, {
-            filter: "brightness(1)",
-            duration: 0.6,
+            duration: 0.2,
             ease: "power2.out"
-          }, 0.1);
+          });
         }
         
-        // Delay state change to allow exit animations
-        tl.call(() => {
-          setExpandedService(null);
-        }, undefined, 0.4);
-        
-      } catch (error) {
-        console.warn('GSAP animation error:', error);
-        setExpandedService(null);
+        if (gridContainer) {
+          gsap.to(gridContainer, {
+            filter: "brightness(1)",
+            duration: 0.2,
+            ease: "power2.out"
+          });
+        }
       }
+      
+      // Set state immediately for faster response
+      setExpandedService(null);
     }
   };
 
@@ -654,7 +538,7 @@ export default function Navbar() {
               whileTap={{ scale: 0.95 }}
               className="bg-white text-black px-6 py-2 font-semibold hover:bg-zinc-200 transition-colors duration-300"
             >
-              {content[language].getStarted}
+              {content.getStarted}
             </motion.button>
           </div>
 
@@ -716,7 +600,7 @@ export default function Navbar() {
                   <div className="space-y-6 lg:space-y-8">
                     <div className="mb-8 lg:mb-12">
                       <p className="text-zinc-400 font-outfit text-sm uppercase tracking-wider mb-2">
-                        {content[language].navigation}
+                        {content.navigation}
                       </p>
                       <div className="w-16 h-0.5 bg-gradient-to-r from-white to-transparent"></div>
                     </div>
@@ -749,14 +633,14 @@ export default function Navbar() {
                                   animate={{ 
                                     rotate: item.href === '#services' && expandedService ? 90 : 0 
                                   }}
-                                  transition={{ duration: 0.3 }}
+                                  transition={{ duration: 0.2 }}
                                 >
                                   <motion.span 
                                     className="text-sm"
                                     animate={{ 
                                       rotate: item.href === '#services' && expandedService ? 90 : 0 
                                     }}
-                                    transition={{ duration: 0.3 }}
+                                    transition={{ duration: 0.2 }}
                                   >
                                     →
                                   </motion.span>
@@ -766,34 +650,50 @@ export default function Navbar() {
                           </div>
 
                           {/* Services Expansion - Mobile Inline */}
-                          {item.href === '#services' && expandedService === 'services' && (
-                            <div className="lg:hidden services-expansion-mobile mt-4 mb-6">
-                              <div className="pl-8 space-y-4">
-                                <div className="mb-4">
-                                  <p className="text-zinc-400 font-outfit text-xs uppercase tracking-wider mb-2">
-                                    {language === 'en' ? 'Our Services' : 'Nuestros Servicios'}
-                                  </p>
-                                  <div className="w-12 h-0.5 bg-gradient-to-r from-white to-transparent" />
+                          <AnimatePresence>
+                            {item.href === '#services' && expandedService === 'services' && (
+                              <motion.div 
+                                className="lg:hidden services-expansion-mobile mt-4 mb-6"
+                                initial={{ height: 0, opacity: 0 }}
+                                animate={{ height: "auto", opacity: 1 }}
+                                exit={{ height: 0, opacity: 0 }}
+                                transition={{ duration: 0.4, ease: [0.4, 0, 0.2, 1] }}
+                              >
+                                <div className="pl-8 space-y-4">
+                                  <motion.div 
+                                    className="mb-4"
+                                    initial={{ opacity: 0, y: -10 }}
+                                    animate={{ opacity: 1, y: 0 }}
+                                    transition={{ delay: 0.1 }}
+                                  >
+                                    <p className="text-zinc-400 font-outfit text-xs uppercase tracking-wider mb-2">
+                                      {content.ourServices}
+                                    </p>
+                                    <div className="w-12 h-0.5 bg-gradient-to-r from-white to-transparent" />
+                                  </motion.div>
+                                  
+                                  <div className="space-y-3">
+                                    {services.map((service, serviceIndex) => (
+                                      <motion.div
+                                        key={service.name.en}
+                                        className="service-expansion-item-mobile group bg-zinc-900/30 p-3 hover:bg-zinc-800/50 transition-all duration-300 border border-zinc-700/50 hover:border-zinc-500"
+                                        initial={{ opacity: 0, y: 15 }}
+                                        animate={{ opacity: 1, y: 0 }}
+                                        transition={{ delay: 0.2 + serviceIndex * 0.08 }}
+                                      >
+                                        <h4 className="text-white font-lexend font-semibold text-sm group-hover:text-zinc-100 mb-1">
+                                          {service.name[language]}
+                                        </h4>
+                                        <p className="text-zinc-400 text-xs leading-relaxed group-hover:text-zinc-300">
+                                          {service.description[language]}
+                                        </p>
+                                      </motion.div>
+                                    ))}
+                                  </div>
                                 </div>
-                                
-                                <div className="space-y-3">
-                                  {services.map((service, serviceIndex) => (
-                                    <div
-                                      key={service.name.en}
-                                      className="service-expansion-item-mobile group bg-zinc-900/30 p-3 hover:bg-zinc-800/50 transition-all duration-300 border border-zinc-700/50 hover:border-zinc-500"
-                                    >
-                                      <h4 className="text-white font-lexend font-semibold text-sm group-hover:text-zinc-100 mb-1">
-                                        {service.name[language]}
-                                      </h4>
-                                      <p className="text-zinc-400 text-xs leading-relaxed group-hover:text-zinc-300">
-                                        {service.description[language]}
-                                      </p>
-                                    </div>
-                                  ))}
-                                </div>
-                              </div>
-                            </div>
-                          )}
+                              </motion.div>
+                            )}
+                          </AnimatePresence>
                         </React.Fragment>
                       ))}
                     </nav>
@@ -871,33 +771,50 @@ export default function Navbar() {
                   {/* Middle Column - Services Expansion */}
                   <AnimatePresence mode="wait">
                     {expandedService === 'services' && (
-                      <div 
+                      <motion.div 
                         key="services-column"
-                        className="services-expansion space-y-8 lg:space-y-12"
+                        className="services-expansion space-y-8 lg:space-y-12 hidden lg:block"
+                        initial={{ opacity: 0, scaleX: 0, originX: 0 }}
+                        animate={{ opacity: 1, scaleX: 1 }}
+                        exit={{ opacity: 0, scaleX: 0 }}
+                        transition={{ 
+                          duration: 0.6, 
+                          ease: [0.4, 0, 0.2, 1],
+                          opacity: { duration: 0.3 }
+                        }}
                       >
-                      <div className="mb-8 lg:mb-12">
-                        <p className="text-zinc-400 font-outfit text-sm uppercase tracking-wider mb-2">
-                          {language === 'en' ? 'Our Services' : 'Nuestros Servicios'}
-                        </p>
-                        <div className="w-16 h-0.5 bg-gradient-to-r from-white to-transparent" />
-                      </div>
-                      
-                      <div className="space-y-4 lg:space-y-6">
-                        {services.map((service, serviceIndex) => (
-                          <div
-                            key={service.name.en}
-                            className="service-expansion-item group bg-zinc-900/50 p-4 lg:p-6 hover:bg-zinc-800/50 transition-all duration-300 border border-zinc-700 hover:border-zinc-500"
-                          >
-                            <h4 className="text-white font-lexend font-bold text-lg lg:text-xl group-hover:text-zinc-100 mb-2">
-                              {service.name[language]}
-                            </h4>
-                            <p className="text-zinc-400 text-sm lg:text-base leading-relaxed group-hover:text-zinc-300">
-                              {service.description[language]}
-                            </p>
-                          </div>
-                        ))}
-                      </div>
-                    </div>
+                        <motion.div 
+                          className="mb-8 lg:mb-12"
+                          initial={{ opacity: 0, y: 20 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          transition={{ delay: 0.2, duration: 0.4 }}
+                        >
+                          <p className="text-zinc-400 font-outfit text-sm uppercase tracking-wider mb-2">
+                            {content.ourServices}
+                          </p>
+                          <div className="w-16 h-0.5 bg-gradient-to-r from-white to-transparent" />
+                        </motion.div>
+                        
+                        <div className="space-y-4 lg:space-y-6">
+                          {services.map((service, serviceIndex) => (
+                            <motion.div
+                              key={service.name.en}
+                              className="service-expansion-item group bg-zinc-900/50 p-4 lg:p-6 hover:bg-zinc-800/50 transition-all duration-300 border border-zinc-700 hover:border-zinc-500"
+                              initial={{ opacity: 0, y: 20 }}
+                              animate={{ opacity: 1, y: 0 }}
+                              transition={{ delay: 0.3 + serviceIndex * 0.1, duration: 0.4 }}
+                              whileHover={{ x: 5 }}
+                            >
+                              <h4 className="text-white font-lexend font-bold text-lg lg:text-xl group-hover:text-zinc-100 mb-2">
+                                {service.name[language]}
+                              </h4>
+                              <p className="text-zinc-400 text-sm lg:text-base leading-relaxed group-hover:text-zinc-300">
+                                {service.description[language]}
+                              </p>
+                            </motion.div>
+                          ))}
+                        </div>
+                      </motion.div>
                     )}
                   </AnimatePresence>
 
@@ -907,7 +824,7 @@ export default function Navbar() {
                     {/* Regional Offices */}
                     <div>
                       <p className="text-zinc-400 font-outfit text-sm uppercase tracking-wider mb-6">
-                        {content[language].availableRegions}
+                        {content.availableRegions}
                       </p>
                       <div className="space-y-4 lg:space-y-6">
                         {regions.map((region, index) => (
@@ -926,13 +843,13 @@ export default function Navbar() {
                                 </p>
                                 <div className="space-y-1 text-sm">
                                   <p className="text-zinc-400 break-all">
-                                    {content[language].phone}: 
+                                    {content.phone}: 
                                     <a href={`tel:${region.phone}`} className="text-zinc-300 hover:text-white ml-1 transition-colors">
                                       {region.phone}
                                     </a>
                                   </p>
                                   <p className="text-zinc-400 break-all">
-                                    {content[language].email}: 
+                                    {content.email}: 
                                     <a href={`mailto:${region.email}`} className="text-zinc-300 hover:text-white ml-1 transition-colors">
                                       {region.email}
                                     </a>
@@ -954,17 +871,17 @@ export default function Navbar() {
                     {/* International Contact */}
                     <div>
                       <p className="text-zinc-400 font-outfit text-sm uppercase tracking-wider mb-6">
-                        {content[language].international}
+                        {content.international}
                       </p>
                       <div className="space-y-4 bg-zinc-900/30 p-4 lg:p-6">
                         <div>
-                          <p className="text-zinc-500 text-sm">{content[language].email}</p>
+                          <p className="text-zinc-500 text-sm">{content.email}</p>
                           <a href="mailto:hello@hyrk.io" className="text-white text-lg font-outfit hover:text-zinc-300 transition-colors break-all">
                             hello@hyrk.io
                           </a>
                         </div>
                         <div>
-                          <p className="text-zinc-500 text-sm">{content[language].phone}</p>
+                          <p className="text-zinc-500 text-sm">{content.phone}</p>
                           <a href="tel:+1234567890" className="text-white text-lg font-outfit hover:text-zinc-300 transition-colors">
                             +1 (234) 567-890
                           </a>
@@ -975,7 +892,7 @@ export default function Navbar() {
                     {/* Social Links */}
                     <div>
                       <p className="text-zinc-400 font-outfit text-sm uppercase tracking-wider mb-6">
-                        {content[language].followUs}
+                        {content.followUs}
                       </p>
                       <div className="flex flex-wrap gap-4 lg:gap-6">
                         {['LinkedIn', 'Twitter', 'GitHub'].map((social) => (
@@ -1001,7 +918,7 @@ export default function Navbar() {
                         whileTap={{ scale: 0.95 }}
                         className="bg-white text-black px-8 py-4 font-semibold text-lg hover:bg-zinc-200 transition-colors duration-300 w-full"
                       >
-                        {content[language].startProject}
+                        {content.startProject}
                       </motion.button>
                     </div>
                   </div>
@@ -1025,10 +942,10 @@ export default function Navbar() {
                         <span>•</span>
                         <span>MTY</span>
                         <span>•</span>
-                        <span>{content[language].international}</span>
+                        <span>{content.international}</span>
                       </div>
                       <p className="text-zinc-500 text-sm font-outfit">
-                        © 2024 hyrk.io. {content[language].copyright}
+                        © 2024 hyrk.io. {content.copyright}
                       </p>
                     </div>
                   </div>
