@@ -37,8 +37,8 @@ export const en = {
   // Homepage
   home: {
     title: 'hyrk.io',
-    subtitle1: 'Software accelerator',
-    subtitle2: 'idea creator',
+    subtitle1: 'Software development accelerator',
+    subtitle2: 'and innovation hub',
     subtitle3: 'specializing in premium solutions for',
     subtitle4: 'luxury automotive',
     subtitle5: 'financial services',
@@ -52,9 +52,9 @@ export const en = {
     trustedByLeadersDesc: "We've partnered with innovative companies to transform their ideas into market-leading solutions.",
     
     // Client Descriptions
-    cliquealoDesc: 'E-commerce platform revolutionizing online shopping in Mexico',
-    trambooryDesc: 'Digital transformation solutions for modern businesses',
-    livinningDesc: 'Luxury lifestyle and premium service management',
+    cliquealoDesc: 'E-commerce platform that revolutionizes online shopping in Mexico',
+    trambooryDesc: 'Comprehensive digital transformation solutions tailored for modern businesses',
+    livinningDesc: 'Luxury lifestyle and premium service management platform',
     triggerDesc: 'Automated marketing and customer engagement platform',
     
     // Expertise Section
@@ -62,16 +62,16 @@ export const en = {
     ourExpertiseDesc: 'Specialized solutions across high-value industries, delivering premium software that drives business transformation.',
     
     automotiveLuxury: 'Automotive Luxury',
-    automotiveLuxuryDesc: 'Premium automotive solutions with cutting-edge technology for luxury brands and high-end dealerships',
+    automotiveLuxuryDesc: 'Advanced automotive solutions with cutting-edge technology for luxury brands and high-end dealerships',
     
     financialServices: 'Financial Services',
-    financialServicesDesc: 'Secure, scalable financial platforms with compliance-first architecture and real-time processing',
+    financialServicesDesc: 'Secure, scalable financial platforms featuring compliance-first architecture and real-time processing',
     
     clientTracking: 'Client Tracking',
-    clientTrackingDesc: 'Advanced CRM and customer journey analytics with AI-powered insights and automation',
+    clientTrackingDesc: 'Advanced CRM and customer journey analytics platform with AI-powered insights and automation',
     
     digitalTransformation: 'Digital Transformation',
-    digitalTransformationDesc: 'End-to-end modernization of legacy systems with cloud-native, scalable architectures',
+    digitalTransformationDesc: 'End-to-end modernization of legacy systems using cloud-native, scalable architectures',
     
     // Stats Section
     projectsDelivered: 'Projects Delivered',
@@ -81,11 +81,11 @@ export const en = {
     
     // CTA Section
     readyToTransform: 'Ready to Transform Your Ideas?',
-    readyToTransformDesc: 'Join the elite companies that trust hyrk.io to accelerate their software development and bring their most ambitious ideas to life.',
+    readyToTransformDesc: 'Partner with leading companies that trust hyrk.io to accelerate their software development and bring their most ambitious ideas to life.',
     getStartedToday: 'Get Started Today',
     
     // Footer
-    premiumAccelerator: 'Premium software accelerator & idea creator',
+    premiumAccelerator: 'Premium software development accelerator and innovation hub',
     allRightsReserved: 'All rights reserved.',
   }
 };
