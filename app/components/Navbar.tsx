@@ -1,6 +1,8 @@
 'use client';
 
 import React, { useEffect, useRef, useState } from 'react';
+import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { gsap } from 'gsap';
 import { motion, AnimatePresence } from 'motion/react';
 import { useLanguage } from '../contexts/LanguageContext';
@@ -24,6 +26,7 @@ export default function Navbar() {
   const [activeItem, setActiveItem] = useState<string>('');
   const [expandedService, setExpandedService] = useState<'services' | null>(null);
   const { language, setLanguage, t } = useLanguage();
+  const router = useRouter();
   const navRef = useRef<HTMLElement>(null);
   const menuItemsRef = useRef<(HTMLLIElement | null)[]>([]);
   const hamburgerRef = useRef<HTMLDivElement>(null);
@@ -456,6 +459,38 @@ export default function Navbar() {
     }
   };
 
+  const handleLogoClick = () => {
+    // Navigate to home page and scroll to top
+    if (window.location.pathname !== '/') {
+      router.push('/');
+    } else {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  };
+
+  const handleGetStartedClick = () => {
+    // Navigate to contact section
+    const contactElement = document.querySelector('#contact');
+    if (contactElement) {
+      contactElement.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
+  const handleIntranetClick = () => {
+    // Navigate to intranet dashboard
+    router.push('/intranet/dashboard');
+  };
+
+  const handleStartProjectClick = () => {
+    // Navigate to contact section or intranet
+    const contactElement = document.querySelector('#contact');
+    if (contactElement) {
+      contactElement.scrollIntoView({ behavior: 'smooth' });
+    } else {
+      router.push('/intranet/dashboard');
+    }
+  };
+
   return (
     <>
       <nav 
@@ -464,15 +499,17 @@ export default function Navbar() {
       >
         <div className="max-w-7xl mx-auto flex items-center justify-between">
           {/* Logo */}
-          <motion.div 
-            className="flex items-center space-x-2"
+          <motion.button 
+            onClick={handleLogoClick}
+            className="flex items-center space-x-2 cursor-pointer"
             whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
           >
             <div className="w-8 h-8 bg-gradient-to-r from-white to-zinc-400 flex items-center justify-center">
               <span className="text-black font-bold text-sm">H</span>
             </div>
             <span className="text-white font-lexend font-bold text-xl">hyrk.io</span>
-          </motion.div>
+          </motion.button>
 
           {/* Desktop Navigation - Hidden when menu is open */}
           <div className={`hidden lg:flex items-center space-x-8 transition-opacity duration-300 ${isMenuOpen ? 'opacity-0 pointer-events-none' : 'opacity-100'}`}>
@@ -532,8 +569,20 @@ export default function Navbar() {
               </button>
             </motion.div>
 
+            {/* Intranet Button */}
+            <motion.button
+              onClick={handleIntranetClick}
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              className="flex items-center space-x-2 bg-zinc-800 text-white px-4 py-2 rounded-lg font-medium hover:bg-zinc-700 transition-colors duration-300 border border-zinc-700"
+            >
+              <span>🔐</span>
+              <span>Intranet</span>
+            </motion.button>
+
             {/* CTA Button */}
             <motion.button
+              onClick={handleGetStartedClick}
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               className="bg-white text-black px-6 py-2 font-semibold hover:bg-zinc-200 transition-colors duration-300"
@@ -927,6 +976,7 @@ export default function Navbar() {
                     {/* CTA Button */}
                     <div className="pt-6 lg:pt-8">
                       <motion.button
+                        onClick={handleStartProjectClick}
                         whileHover={{ 
                           scale: 1.05,
                           boxShadow: "0 10px 30px rgba(255,255,255,0.2)"

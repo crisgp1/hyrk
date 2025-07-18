@@ -2,6 +2,7 @@
 
 import { motion } from 'motion/react';
 import { useState, useEffect, useRef } from 'react';
+import { useRouter } from 'next/navigation';
 import { gsap } from 'gsap';
 import Navbar from './components/Navbar';
 import { useLanguage } from './contexts/LanguageContext';
@@ -19,7 +20,8 @@ interface ExpertiseProps {
 }
 
 export default function Home() {
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
+  const router = useRouter();
   const [activeClient, setActiveClient] = useState<number | null>(null);
   const [particles, setParticles] = useState<{left: number; top: number; delay: number}[]>([]);
   const heroRef = useRef<HTMLDivElement>(null);
@@ -89,6 +91,29 @@ export default function Home() {
         staggerChildren: 0.1
       }
     }
+  };
+
+  const handleStartProject = () => {
+    // Navigate to contact section first, then to intranet if needed
+    const contactElement = document.querySelector('#contact');
+    if (contactElement) {
+      contactElement.scrollIntoView({ behavior: 'smooth' });
+    } else {
+      router.push('/intranet/dashboard');
+    }
+  };
+
+  const handleViewWork = () => {
+    // Navigate to clients section
+    const clientsElement = document.querySelector('#clients');
+    if (clientsElement) {
+      clientsElement.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
+  const handleGetStartedToday = () => {
+    // Navigate to intranet
+    router.push('/intranet/dashboard');
   };
 
   useEffect(() => {
@@ -230,6 +255,7 @@ export default function Home() {
             className="flex gap-6 flex-col sm:flex-row justify-center"
           >
             <motion.button
+              onClick={handleStartProject}
               whileHover={{ scale: 1.05, boxShadow: "0 20px 40px rgba(255,255,255,0.1)" }}
               whileTap={{ scale: 0.95 }}
               className="bg-white text-black px-10 py-4 rounded-xl font-semibold text-lg hover:bg-zinc-200 transition-all duration-300 relative overflow-hidden group"
@@ -238,6 +264,7 @@ export default function Home() {
               <div className="absolute inset-0 bg-gradient-to-r from-zinc-100 to-white transform translate-x-full group-hover:translate-x-0 transition-transform duration-300" />
             </motion.button>
             <motion.button
+              onClick={handleViewWork}
               whileHover={{ scale: 1.05, borderColor: "rgba(255,255,255,0.5)" }}
               whileTap={{ scale: 0.95 }}
               className="border-2 border-zinc-700 text-white px-10 py-4 rounded-xl font-semibold text-lg hover:bg-zinc-900/50 transition-all duration-300 backdrop-blur-sm"
@@ -519,6 +546,7 @@ export default function Home() {
               {t.home.readyToTransformDesc}
             </p>
             <motion.button
+              onClick={handleGetStartedToday}
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               className="bg-white text-black px-12 py-4 rounded-lg font-semibold text-lg hover:bg-zinc-200 transition-colors"
@@ -533,12 +561,22 @@ export default function Home() {
       <footer className="bg-black py-16 border-t border-zinc-800">
         <div className="max-w-7xl mx-auto px-4">
           <div className="text-center">
-            <div className="text-3xl font-lexend font-bold text-white mb-4">
+            <button 
+              onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+              className="text-3xl font-lexend font-bold text-white mb-4 hover:text-zinc-300 transition-colors"
+            >
               hyrk.io
-            </div>
+            </button>
             <p className="text-zinc-500 mb-8">
               {t.home.premiumAccelerator}
             </p>
+            <div className="flex flex-col sm:flex-row items-center justify-center space-y-2 sm:space-y-0 sm:space-x-4 text-zinc-600 text-sm mb-6">
+              <span>{language === 'es' ? 'Servicios' : 'Services'}</span>
+              <span className="hidden sm:block">•</span>
+              <span>{language === 'es' ? 'Contacto' : 'Contact'}</span>
+              <span className="hidden sm:block">•</span>
+              <span>{language === 'es' ? 'Privacidad' : 'Privacy'}</span>
+            </div>
             <div className="text-zinc-600 text-sm">
               © 2024 hyrk.io. {t.home.allRightsReserved}
             </div>
