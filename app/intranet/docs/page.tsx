@@ -386,7 +386,7 @@ export default function DocsPage() {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-lexend font-bold text-white">
+          <h1 className="text-3xl font-vertiga-black text-white">
             {language === 'en' ? 'Knowledge Base' : 'Base de Conocimiento'}
           </h1>
           <p className="text-zinc-400 mt-2">
@@ -544,7 +544,7 @@ export default function DocsPage() {
                 <div className="flex items-start space-x-4">
                   <span className="text-3xl">{getTypeIcon(selectedDoc.type)}</span>
                   <div>
-                    <h2 className="text-2xl font-lexend font-bold text-white mb-1">
+                    <h2 className="text-2xl font-vertiga-black text-white mb-1">
                       {selectedDoc.title[language]}
                     </h2>
                     <p className="text-zinc-400 mb-2">{selectedDoc.category[language]}</p>

@@ -53,9 +53,12 @@ export const en = {
     
     // Client Descriptions
     cliquealoDesc: 'E-commerce platform that revolutionizes online shopping in Mexico',
+    dinriseDesc: 'Innovative business management platform with comprehensive digital solutions',
+    veilcarDesc: 'Premium automotive management platform with luxury service solutions',
     trambooryDesc: 'Comprehensive digital transformation solutions tailored for modern businesses',
+    kuentraDesc: 'Comprehensive financial management and business accounting system',
     livinningDesc: 'Luxury lifestyle and premium service management platform',
-    triggerDesc: 'Automated marketing and customer engagement platform',
+    altumDesc: 'Specialized legal services powered by cutting-edge technology',
     
     // Expertise Section
     ourExpertise: 'Our Expertise',

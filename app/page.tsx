@@ -5,12 +5,16 @@ import { useState, useEffect, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import { gsap } from 'gsap';
 import Navbar from './components/Navbar';
+import WebsitePreview from './components/WebsitePreview';
 import { useLanguage } from './contexts/LanguageContext';
 
 interface ClientProps {
   name: string;
   domain: string;
   description: string;
+  url: string;
+  previewEnabled?: boolean;
+  comingSoon?: boolean;
 }
 
 interface ExpertiseProps {
@@ -23,6 +27,7 @@ export default function Home() {
   const { t, language } = useLanguage();
   const router = useRouter();
   const [activeClient, setActiveClient] = useState<number | null>(null);
+  const [previewClient, setPreviewClient] = useState<number | null>(null);
   const [particles, setParticles] = useState<{left: number; top: number; delay: number}[]>([]);
   const heroRef = useRef<HTMLDivElement>(null);
   const titleRef = useRef<HTMLHeadingElement>(null);
@@ -36,22 +41,58 @@ export default function Home() {
     {
       name: "Cliquealo",
       domain: "cliquealo.mx",
-      description: t.home.cliquealoDesc
+      url: "https://cliquealo.mx",
+      description: t.home.cliquealoDesc,
+      previewEnabled: true,
+      comingSoon: false
+    },
+    {
+      name: "Dinrise",
+      domain: "dinrise.com",
+      url: "https://www.dinrise.com/",
+      description: t.home.dinriseDesc,
+      previewEnabled: true,
+      comingSoon: true
+    },
+    {
+      name: "Veilcar",
+      domain: "veilcar.com",
+      url: "https://veilcar.com/",
+      description: t.home.veilcarDesc,
+      previewEnabled: true,
+      comingSoon: true
     },
     {
       name: "Tramboory",
       domain: "tramboory.com",
-      description: t.home.trambooryDesc
+      url: "https://tramboory.com",
+      description: t.home.trambooryDesc,
+      previewEnabled: true,
+      comingSoon: false
+    },
+    {
+      name: "Kuentra",
+      domain: "kuentra.com",
+      url: "https://kuentra.com/",
+      description: t.home.kuentraDesc,
+      previewEnabled: true,
+      comingSoon: true
     },
     {
       name: "Livinning",
       domain: "livinning.com",
-      description: t.home.livinningDesc
+      url: "https://livinning.com",
+      description: t.home.livinningDesc,
+      previewEnabled: true,
+      comingSoon: false
     },
     {
-      name: "Trigger",
-      domain: "trigger.mx",
-      description: t.home.triggerDesc
+      name: "Altum Legal",
+      domain: "altum-legal.mx",
+      url: "https://www.altum-legal.mx/",
+      description: t.home.altumDesc,
+      previewEnabled: true,
+      comingSoon: false
     }
   ];
 
@@ -197,7 +238,7 @@ export default function Home() {
   }, [particles]);
 
   return (
-    <div className="min-h-screen bg-zinc-950 text-white font-outfit">
+    <div className="min-h-screen bg-zinc-950 text-white font-vertiga-regular">
       <Navbar />
       {/* Hero Section */}
       <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
@@ -236,7 +277,7 @@ export default function Home() {
           <div className="mb-8">
             <h1 
               ref={titleRef}
-              className="text-6xl md:text-7xl lg:text-8xl font-lexend font-bold mb-6 tracking-tight leading-none"
+              className="text-6xl md:text-7xl lg:text-8xl font-vertiga-black mb-6 tracking-tight leading-none"
             >
               <span className="bg-gradient-to-r from-white via-zinc-200 to-zinc-400 bg-clip-text text-transparent hover:from-zinc-200 hover:via-white hover:to-zinc-300 transition-all duration-500">
                 hyrk.io
@@ -285,7 +326,7 @@ export default function Home() {
             viewport={{ once: true }}
             className="text-center mb-20"
           >
-            <h2 className="text-4xl md:text-6xl font-lexend font-bold text-white mb-6">
+            <h2 className="text-4xl md:text-6xl font-vertiga-black text-white mb-6">
               {t.home.trustedByLeaders}
             </h2>
             <p className="text-xl text-zinc-400 max-w-2xl mx-auto">
@@ -298,83 +339,140 @@ export default function Home() {
             initial="initial"
             whileInView="animate"
             viewport={{ once: true }}
-            className="grid md:grid-cols-2 lg:grid-cols-4 gap-8"
+            className="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-12"
           >
             {clients.map((client, index) => (
-              <motion.div
-                key={index}
-                ref={(el) => {
-                  clientCardsRef.current[index] = el;
-                }}
-                variants={fadeInUp}
-                className="group bg-gradient-to-br from-zinc-800 to-zinc-900 border border-zinc-700 p-8 transition-all duration-500 cursor-pointer relative overflow-hidden"
-                onMouseEnter={() => {
-                  setActiveClient(index);
-                  const card = clientCardsRef.current[index];
-                  if (card) {
-                    gsap.to(card, {
-                      boxShadow: "0 0 60px rgba(255,255,255,0.15), 0 0 120px rgba(255,255,255,0.08), inset 0 0 40px rgba(255,255,255,0.05)",
-                      borderColor: "rgba(255,255,255,0.3)",
-                      duration: 0.6,
-                      ease: "power2.out"
-                    });
-                  }
-                }}
-                onMouseLeave={() => {
-                  setActiveClient(null);
-                  const card = clientCardsRef.current[index];
-                  if (card) {
-                    gsap.to(card, {
-                      boxShadow: "0 0 0px rgba(255,255,255,0), 0 0 0px rgba(255,255,255,0), inset 0 0 0px rgba(255,255,255,0)",
-                      borderColor: "rgba(113, 113, 122, 1)",
-                      duration: 0.6,
-                      ease: "power2.out"
-                    });
-                  }
-                }}
-                whileHover={{ 
-                  scale: 1.02
-                }}
-              >
-                {/* Subtle inner glow */}
-                <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
-                
-                {/* Ambient light effect */}
-                <div className="absolute -inset-4 bg-gradient-radial from-white/10 via-transparent to-transparent opacity-0 group-hover:opacity-30 transition-opacity duration-700 blur-xl" />
-                
-                <div className="relative z-10 text-center">
-                  <motion.div
-                    className="w-16 h-16 mx-auto mb-4 bg-gradient-to-r from-zinc-700 to-zinc-600 flex items-center justify-center group-hover:bg-gradient-to-r group-hover:from-zinc-600 group-hover:to-zinc-500 transition-all duration-500"
-                    whileHover={{ 
-                      scale: 1.1,
-                      filter: "brightness(1.2)"
-                    }}
-                    transition={{ duration: 0.4 }}
-                  >
-                    <span className="text-white font-bold text-lg group-hover:text-zinc-100 transition-colors">
-                      {client.name.charAt(0)}
-                    </span>
-                  </motion.div>
-                  
-                  <h3 className="text-2xl font-lexend font-bold text-white mb-2 group-hover:text-zinc-50 transition-colors duration-300">
-                    {client.name}
-                  </h3>
-                  <p className="text-zinc-400 mb-4 font-mono text-sm group-hover:text-zinc-200 transition-colors duration-300">
-                    {client.domain}
-                  </p>
-                  <motion.p
-                    initial={{ opacity: 0, height: 0 }}
-                    animate={{ 
-                      opacity: activeClient === index ? 1 : 0,
-                      height: activeClient === index ? 'auto' : 0
-                    }}
-                    transition={{ duration: 0.4, ease: "easeInOut" }}
-                    className="text-zinc-300 text-sm leading-relaxed overflow-hidden group-hover:text-zinc-100"
-                  >
+              <div key={index} className="flex flex-col space-y-4">
+                {/* Apple-style Browser Window */}
+                <motion.div
+                  ref={(el) => {
+                    clientCardsRef.current[index] = el;
+                  }}
+                  initial={{ opacity: 0, y: 60 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6, delay: index * 0.1 }}
+                  className="group relative cursor-pointer"
+                  onClick={() => {
+                    window.open(client.url, '_blank', 'width=1200,height=800,scrollbars=yes,resizable=yes');
+                  }}
+                  onMouseEnter={() => {
+                    setActiveClient(index);
+                    const card = clientCardsRef.current[index];
+                    if (card) {
+                      gsap.to(card, {
+                        y: -8,
+                        boxShadow: "0 25px 50px -12px rgba(0,0,0,0.8), 0 0 0 1px rgba(255,255,255,0.05)",
+                        duration: 0.4,
+                        ease: "power2.out"
+                      });
+                    }
+                  }}
+                  onMouseLeave={() => {
+                    setActiveClient(null);
+                    const card = clientCardsRef.current[index];
+                    if (card) {
+                      gsap.to(card, {
+                        y: 0,
+                        boxShadow: "0 10px 25px -5px rgba(0,0,0,0.4), 0 0 0 1px rgba(255,255,255,0.02)",
+                        duration: 0.4,
+                        ease: "power2.out"
+                      });
+                    }
+                  }}
+                  whileHover={{ scale: 1.02 }}
+                  style={{
+                    filter: 'drop-shadow(0 10px 25px rgba(0,0,0,0.4))',
+                  }}
+                >
+                  {/* Browser Window Container */}
+                  <div className="bg-zinc-800/90 backdrop-blur-sm rounded-xl border border-zinc-700/50 overflow-hidden">
+                    {/* Browser Title Bar */}
+                    <div className="flex items-center justify-between px-4 py-3 bg-zinc-900/80 border-b border-zinc-700/30">
+                      {/* Traffic Light Buttons */}
+                      <div className="flex space-x-2">
+                        <div className="w-3 h-3 rounded-full bg-red-500 group-hover:bg-red-400 transition-colors duration-200"></div>
+                        <div className="w-3 h-3 rounded-full bg-yellow-500 group-hover:bg-yellow-400 transition-colors duration-200"></div>
+                        <div className="w-3 h-3 rounded-full bg-green-500 group-hover:bg-green-400 transition-colors duration-200"></div>
+                      </div>
+                      
+                      {/* URL Bar */}
+                      <div className="flex-1 mx-4">
+                        <div className="bg-zinc-800/50 rounded-md px-3 py-1 text-center">
+                          <span className="text-zinc-400 text-xs font-mono">
+                            {client.domain}
+                          </span>
+                        </div>
+                      </div>
+                      
+                      {/* Window Controls */}
+                      <div className="flex space-x-1">
+                        <div className="w-4 h-4 bg-zinc-700/50 rounded-sm"></div>
+                      </div>
+                    </div>
+
+                    {/* Website Content Area */}
+                    <div className="relative h-64 bg-zinc-900/50">
+                      {/* Coming Soon Badge */}
+                      {client.comingSoon && (
+                        <div className="absolute top-4 right-4 z-20">
+                          <div className="bg-gradient-to-r from-orange-500 to-red-500 px-3 py-1 rounded-full border border-orange-400/50 shadow-lg">
+                            <span className="text-white text-xs font-vertiga-bold uppercase tracking-wider">
+                              Coming Soon
+                            </span>
+                          </div>
+                        </div>
+                      )}
+
+                      {/* Desktop: Show iframe preview */}
+                      <div className="hidden md:block h-full">
+                        {client.previewEnabled && (
+                          <WebsitePreview
+                            url={client.url}
+                            title={client.name}
+                            className="w-full h-full"
+                            enableLazyLoading={true}
+                            onLoad={() => console.log(`Preview loaded for ${client.name}`)}
+                            onError={(error) => console.warn(`Preview error for ${client.name}:`, error)}
+                          />
+                        )}
+                      </div>
+
+                      {/* Mobile: Show click to visit */}
+                      <div className="md:hidden h-full flex items-center justify-center bg-gradient-to-br from-zinc-800 to-zinc-900">
+                        <motion.button
+                          whileHover={{ scale: 1.05 }}
+                          whileTap={{ scale: 0.95 }}
+                          onClick={() => window.open(client.url, '_blank', 'noopener,noreferrer')}
+                          className="bg-white/10 hover:bg-white/20 text-white px-6 py-3 rounded-lg font-vertiga-regular transition-all duration-300 border border-white/20 hover:border-white/30 backdrop-blur-sm"
+                        >
+                          <div className="flex items-center space-x-2">
+                            <span>Ver Sitio</span>
+                            <span>→</span>
+                          </div>
+                        </motion.button>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Enhanced Glow Effect on Hover */}
+                  <div className="absolute -inset-4 bg-gradient-radial from-white/5 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-xl pointer-events-none"></div>
+                </motion.div>
+
+                {/* Client Description - Below the window */}
+                <motion.div
+                  initial={{ opacity: 0, height: 0 }}
+                  animate={{ 
+                    opacity: activeClient === index ? 1 : 0,
+                    height: activeClient === index ? 'auto' : 0
+                  }}
+                  transition={{ duration: 0.3, ease: "easeInOut" }}
+                  className="text-center overflow-hidden"
+                >
+                  <p className="text-zinc-400 text-sm leading-relaxed font-vertiga-regular">
                     {client.description}
-                  </motion.p>
-                </div>
-              </motion.div>
+                  </p>
+                </motion.div>
+              </div>
             ))}
           </motion.div>
         </div>
@@ -390,7 +488,7 @@ export default function Home() {
             viewport={{ once: true }}
             className="text-center mb-20"
           >
-            <h2 className="text-4xl md:text-6xl font-lexend font-bold text-white mb-6">
+            <h2 className="text-4xl md:text-6xl font-vertiga-black text-white mb-6">
               {t.home.ourExpertise}
             </h2>
             <p className="text-xl text-zinc-400 max-w-3xl mx-auto">
@@ -465,7 +563,7 @@ export default function Home() {
                     {item.icon}
                   </motion.div>
                   <div className="flex-1">
-                    <h3 className="text-2xl font-lexend font-bold text-white mb-4 group-hover:text-zinc-50 transition-colors duration-300">
+                    <h3 className="text-2xl font-vertiga-black text-white mb-4 group-hover:text-zinc-50 transition-colors duration-300">
                       {item.title}
                     </h3>
                     <p className="text-zinc-400 leading-relaxed group-hover:text-zinc-200 transition-colors duration-300">
@@ -518,7 +616,7 @@ export default function Home() {
                 viewport={{ once: true }}
                 className="group"
               >
-                <div className="text-5xl md:text-6xl font-lexend font-bold text-white mb-2 group-hover:text-zinc-300 transition-colors">
+                <div className="text-5xl md:text-6xl font-vertiga-black text-white mb-2 group-hover:text-zinc-300 transition-colors">
                   {stat.number}
                 </div>
                 <div className="text-zinc-400 font-medium text-lg">
@@ -539,7 +637,7 @@ export default function Home() {
             transition={{ duration: 0.8 }}
             viewport={{ once: true }}
           >
-            <h2 className="text-4xl md:text-6xl font-lexend font-bold text-white mb-6">
+            <h2 className="text-4xl md:text-6xl font-vertiga-black text-white mb-6">
               {t.home.readyToTransform}
             </h2>
             <p className="text-xl text-zinc-400 mb-12 max-w-2xl mx-auto">
@@ -563,7 +661,7 @@ export default function Home() {
           <div className="text-center">
             <button 
               onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-              className="text-3xl font-lexend font-bold text-white mb-4 hover:text-zinc-300 transition-colors"
+              className="text-3xl font-vertiga-black text-white mb-4 hover:text-zinc-300 transition-colors"
             >
               hyrk.io
             </button>

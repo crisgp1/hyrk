@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { usePathname } from 'next/navigation';
 import { motion, AnimatePresence } from 'motion/react';
 import { useLanguage } from '../contexts/LanguageContext';
@@ -82,17 +83,20 @@ export default function IntranetLayout({
 
   return (
     <SuperAdminGuard>
-      <div className="min-h-screen bg-zinc-950 text-white font-outfit">
+      <div className="min-h-screen bg-zinc-950 text-white font-vertiga-regular">
       {/* Top Navigation Bar */}
       <nav className="fixed top-0 left-0 right-0 h-16 bg-zinc-900/80 backdrop-blur-xl border-b border-zinc-800 z-50">
         <div className="h-full flex items-center justify-between px-6">
           <div className="flex items-center space-x-6">
             {/* Logo */}
-            <Link href="/" className="flex items-center space-x-2 group">
-              <div className="w-8 h-8 bg-gradient-to-r from-white to-zinc-400 flex items-center justify-center group-hover:scale-105 transition-transform">
-                <span className="text-black font-bold text-sm">H</span>
-              </div>
-              <span className="text-white font-lexend font-bold text-xl">hyrk.io</span>
+            <Link href="/" className="flex items-center space-x-3 group">
+              <Image
+                src="/img/hyrk logo blanco.svg"
+                alt="hyrk.io"
+                width={100}
+                height={24}
+                className="h-6 w-auto group-hover:scale-105 transition-transform"
+              />
               <span className="text-zinc-500 text-sm font-mono">/ intranet</span>
             </Link>
 

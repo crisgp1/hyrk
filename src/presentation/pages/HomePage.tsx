@@ -77,7 +77,7 @@ export const HomePage: React.FC<HomePageProps> = ({ language = 'en' }) => {
   }, [particles]);
 
   return (
-    <div className="min-h-screen bg-zinc-950 text-white font-outfit">
+    <div className="min-h-screen bg-zinc-950 text-white font-vertiga-regular">
       {/* Hero Section */}
       <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-br from-zinc-900 via-zinc-950 to-black"></div>
@@ -112,7 +112,7 @@ export const HomePage: React.FC<HomePageProps> = ({ language = 'en' }) => {
           <div className="mb-8">
             <h1 
               ref={titleRef}
-              className="text-6xl md:text-7xl lg:text-8xl font-lexend font-bold mb-6 tracking-tight leading-none"
+              className="text-6xl md:text-7xl lg:text-8xl font-vertiga-black mb-6 tracking-tight leading-none"
             >
               <span className="bg-gradient-to-r from-white via-zinc-200 to-zinc-400 bg-clip-text text-transparent hover:from-zinc-200 hover:via-white hover:to-zinc-300 transition-all duration-500">
                 {t('home.title', 'hyrk.io')}
@@ -179,7 +179,7 @@ export const HomePage: React.FC<HomePageProps> = ({ language = 'en' }) => {
                 viewport={{ once: true }}
                 className="group"
               >
-                <div className="text-5xl md:text-6xl font-lexend font-bold text-white mb-2 group-hover:text-zinc-300 transition-colors">
+                <div className="text-5xl md:text-6xl font-vertiga-black text-white mb-2 group-hover:text-zinc-300 transition-colors">
                   {stat.number}
                 </div>
                 <div className="text-zinc-400 font-medium text-lg">
@@ -200,7 +200,7 @@ export const HomePage: React.FC<HomePageProps> = ({ language = 'en' }) => {
             transition={{ duration: 0.8 }}
             viewport={{ once: true }}
           >
-            <h2 className="text-4xl md:text-6xl font-lexend font-bold text-white mb-6">
+            <h2 className="text-4xl md:text-6xl font-vertiga-black text-white mb-6">
               {t('home.readyToTransform', 'Ready to Transform Your Ideas?')}
             </h2>
             <p className="text-xl text-zinc-400 mb-12 max-w-2xl mx-auto">
@@ -221,7 +221,7 @@ export const HomePage: React.FC<HomePageProps> = ({ language = 'en' }) => {
       <footer className="bg-black py-16 border-t border-zinc-800">
         <div className="max-w-7xl mx-auto px-4">
           <div className="text-center">
-            <div className="text-3xl font-lexend font-bold text-white mb-4">
+            <div className="text-3xl font-vertiga-black text-white mb-4">
               {t('home.title', 'hyrk.io')}
             </div>
             <p className="text-zinc-500 mb-8">

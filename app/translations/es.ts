@@ -53,9 +53,12 @@ export const es = {
     
     // Client Descriptions
     cliquealoDesc: 'Plataforma de e-commerce revolucionando las compras en línea en México',
+    dinriseDesc: 'Plataforma innovadora de gestión empresarial y soluciones digitales integrales',
+    veilcarDesc: 'Plataforma premium de gestión automotriz y servicios de lujo',
     trambooryDesc: 'Soluciones de transformación digital para empresas modernas',
+    kuentraDesc: 'Sistema integral de gestión financiera y contabilidad empresarial',
     livinningDesc: 'Gestión de estilo de vida de lujo y servicios premium',
-    triggerDesc: 'Plataforma automatizada de marketing y compromiso con el cliente',
+    altumDesc: 'Servicios legales especializados con tecnología de vanguardia',
     
     // Expertise Section
     ourExpertise: 'Nuestra Experiencia',

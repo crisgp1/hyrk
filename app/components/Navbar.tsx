@@ -1,11 +1,16 @@
 'use client';
 
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useRef, useState } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { gsap } from 'gsap';
+import { useGSAP } from '@gsap/react';
 import { motion, AnimatePresence } from 'motion/react';
 import { useLanguage } from '../contexts/LanguageContext';
+
+// Register GSAP plugins
+gsap.registerPlugin(useGSAP);
 
 interface NavItem {
   name: { en: string; es: string };
@@ -25,6 +30,8 @@ export default function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
   const [activeItem, setActiveItem] = useState<string>('');
   const [expandedService, setExpandedService] = useState<'services' | null>(null);
+  const [logoSrc, setLogoSrc] = useState<string>("/img/hyrk logo blanco.svg");
+  const [isAnimating, setIsAnimating] = useState<boolean>(false);
   const { language, setLanguage, t } = useLanguage();
   const router = useRouter();
   const navRef = useRef<HTMLElement>(null);
@@ -35,6 +42,11 @@ export default function Navbar() {
   const menuContentRef = useRef<HTMLDivElement>(null);
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   const languageToggleRef = useRef<HTMLDivElement>(null);
+  const logoRef = useRef<HTMLImageElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const scrollTimerRef = useRef<number | null>(null);
+  const lastScrollY = useRef<number>(0);
+  const animationFrameRef = useRef<number | null>(null);
 
   const navItems: NavItem[] = [
     { 
@@ -106,7 +118,8 @@ export default function Navbar() {
     ourServices: t.navbar.ourServices
   };
 
-  useEffect(() => {
+  // Initial navbar animations with useGSAP
+  useGSAP(() => {
     const navbar = navRef.current;
     if (!navbar) return;
 
@@ -133,28 +146,130 @@ export default function Navbar() {
         });
       }
     });
+  }, { scope: containerRef });
 
-    // Scroll-based navbar behavior
-    const handleScroll = () => {
-      const scrolled = window.scrollY;
-      if (scrolled > 50) {
-        gsap.to(navbar, {
-          backdropFilter: "blur(20px)",
-          backgroundColor: "rgba(9, 9, 11, 0.8)",
-          duration: 0.3
-        });
-      } else {
-        gsap.to(navbar, {
-          backdropFilter: "blur(0px)",
-          backgroundColor: "rgba(9, 9, 11, 0)",
-          duration: 0.3
-        });
+  // Scroll-based navbar and logo animations with useGSAP
+  useGSAP(() => {
+    const navbar = navRef.current;
+    if (!navbar) return;
+
+    let scrollTween: gsap.core.Tween | null = null;
+    let navbarTween: gsap.core.Tween | null = null;
+
+    const updateScrollState = (): void => {
+      if (animationFrameRef.current) {
+        cancelAnimationFrame(animationFrameRef.current);
       }
+      
+      animationFrameRef.current = requestAnimationFrame(() => {
+        const scrolled = window.scrollY;
+        const logoThreshold = 50;
+        const navbarThreshold = 100;
+        const currentLogoSrc = logoSrc;
+        
+        // Only proceed if scroll position has meaningfully changed and we're not animating
+        if (Math.abs(scrolled - lastScrollY.current) < 5 || isAnimating) {
+          return;
+        }
+        
+        lastScrollY.current = scrolled;
+        
+        // Handle navbar background and size changes
+        if (scrolled > navbarThreshold) {
+          // Scrolled navbar - smaller height with dark background (using native colors)
+          navbarTween = gsap.to(navbar, {
+            backdropFilter: "blur(20px)",
+            backgroundColor: "rgba(9, 9, 11, 0.95)", // Using zinc-950 with transparency
+            paddingTop: "12px",
+            paddingBottom: "12px",
+            borderRadius: "6px",
+            boxShadow: "0 1px 2px rgba(0,0,0,0.15)",
+            duration: 0.4,
+            ease: "power2.out"
+          });
+        } else {
+          // Top navbar - original styling
+          navbarTween = gsap.to(navbar, {
+            backdropFilter: "blur(0px)",
+            backgroundColor: "transparent",
+            paddingTop: "16px",
+            paddingBottom: "16px",
+            borderRadius: "0px",
+            boxShadow: "0 0 0 rgba(0,0,0,0)",
+            duration: 0.4,
+            ease: "power2.out"
+          });
+        }
+        
+        // Handle logo changes (separate threshold)
+        if (scrolled > logoThreshold && currentLogoSrc === "/img/hyrk logo blanco.svg") {
+          // Scrolled down - change to logo pono
+          setIsAnimating(true);
+
+          // Animate logo swap to logo pono
+          if (logoRef.current) {
+            scrollTween = gsap.to(logoRef.current, {
+              opacity: 0,
+              duration: 0.15,
+              ease: "power2.out",
+              onComplete: (): void => {
+                setLogoSrc("/img/logo pono.svg");
+                if (logoRef.current) {
+                  gsap.set(logoRef.current, { opacity: 0 });
+                  scrollTween = gsap.to(logoRef.current, {
+                    opacity: 1,
+                    duration: 0.15,
+                    ease: "power2.out",
+                    onComplete: (): void => {
+                      setIsAnimating(false);
+                    }
+                  });
+                }
+              }
+            });
+          }
+        } else if (scrolled <= logoThreshold && currentLogoSrc === "/img/logo pono.svg") {
+          // Back to top - change to white logo
+          setIsAnimating(true);
+
+          // Animate logo swap back to white hyrk logo
+          if (logoRef.current) {
+            scrollTween = gsap.to(logoRef.current, {
+              opacity: 0,
+              duration: 0.15,
+              ease: "power2.out",
+              onComplete: (): void => {
+                setLogoSrc("/img/hyrk logo blanco.svg");
+                if (logoRef.current) {
+                  gsap.set(logoRef.current, { opacity: 0 });
+                  scrollTween = gsap.to(logoRef.current, {
+                    opacity: 1,
+                    duration: 0.15,
+                    ease: "power2.out",
+                    onComplete: (): void => {
+                      setIsAnimating(false);
+                    }
+                  });
+                }
+              }
+            });
+          }
+        }
+      });
     };
 
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+    const handleScroll = (): void => {
+      updateScrollState();
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return (): void => {
+      window.removeEventListener('scroll', handleScroll);
+      if (scrollTween) scrollTween.kill();
+      if (navbarTween) navbarTween.kill();
+      if (animationFrameRef.current) cancelAnimationFrame(animationFrameRef.current);
+    };
+  }, { dependencies: [logoSrc, isAnimating], scope: containerRef });
 
   const toggleLanguage = (): void => {
     const newLang = language === 'en' ? 'es' : 'en';
@@ -492,7 +607,7 @@ export default function Navbar() {
   };
 
   return (
-    <>
+    <div ref={containerRef}>
       <nav 
         ref={navRef}
         className="fixed top-0 left-0 right-0 z-50 px-6 py-4 transition-all duration-300"
@@ -501,14 +616,19 @@ export default function Navbar() {
           {/* Logo */}
           <motion.button 
             onClick={handleLogoClick}
-            className="flex items-center space-x-2 cursor-pointer"
+            className="flex items-center cursor-pointer"
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
           >
-            <div className="w-8 h-8 bg-gradient-to-r from-white to-zinc-400 flex items-center justify-center">
-              <span className="text-black font-bold text-sm">H</span>
-            </div>
-            <span className="text-white font-lexend font-bold text-xl">hyrk.io</span>
+            <Image
+              ref={logoRef}
+              src={logoSrc}
+              alt="hyrk.io"
+              width={120}
+              height={28}
+              className="h-7 w-auto"
+              priority
+            />
           </motion.button>
 
           {/* Desktop Navigation - Hidden when menu is open */}
@@ -524,7 +644,7 @@ export default function Navbar() {
                 >
                   <button
                     onClick={() => handleNavClick(item.href)}
-                    className={`text-zinc-300 hover:text-white transition-colors duration-300 font-outfit font-medium relative ${
+                    className={`text-zinc-300 hover:text-white transition-colors duration-300 font-vertiga-regular font-medium relative ${
                       activeItem === item.href ? 'text-white' : ''
                     }`}
                   >
@@ -648,7 +768,7 @@ export default function Navbar() {
                   {/* Left Column - Menu Items */}
                   <div className="space-y-6 lg:space-y-8">
                     <div className="mb-8 lg:mb-12">
-                      <p className="text-zinc-400 font-outfit text-sm uppercase tracking-wider mb-2">
+                      <p className="text-zinc-400 font-vertiga-regular text-sm uppercase tracking-wider mb-2">
                         {content.navigation}
                       </p>
                       <div className="w-16 h-0.5 bg-gradient-to-r from-white to-transparent"></div>
@@ -668,10 +788,10 @@ export default function Navbar() {
                                     {item.number}
                                   </span>
                                   <div className="min-w-0 flex-1">
-                                    <h3 className="text-2xl sm:text-3xl lg:text-4xl xl:text-5xl font-lexend font-bold text-zinc-200 group-hover:text-white transition-colors duration-300 leading-tight">
+                                    <h3 className="text-2xl sm:text-3xl lg:text-4xl xl:text-5xl font-vertiga-bold font-bold text-zinc-200 group-hover:text-white transition-colors duration-300 leading-tight">
                                       {item.name[language]}
                                     </h3>
-                                    <p className="text-zinc-400 font-outfit text-sm lg:text-base mt-1 group-hover:text-zinc-300 transition-colors duration-300 leading-relaxed">
+                                    <p className="text-zinc-400 font-vertiga-regular text-sm lg:text-base mt-1 group-hover:text-zinc-300 transition-colors duration-300 leading-relaxed">
                                       {item.description[language]}
                                     </p>
                                   </div>
@@ -731,7 +851,7 @@ export default function Navbar() {
                                     animate={{ opacity: 1, y: 0 }}
                                     transition={{ delay: 0.1 }}
                                   >
-                                    <p className="text-zinc-400 font-outfit text-xs uppercase tracking-wider mb-2">
+                                    <p className="text-zinc-400 font-vertiga-regular text-xs uppercase tracking-wider mb-2">
                                       {content.ourServices}
                                     </p>
                                     <div className="w-12 h-0.5 bg-gradient-to-r from-white to-transparent" />
@@ -746,7 +866,7 @@ export default function Navbar() {
                                         animate={{ opacity: 1, y: 0 }}
                                         transition={{ delay: 0.2 + serviceIndex * 0.08 }}
                                       >
-                                        <h4 className="text-white font-lexend font-semibold text-sm group-hover:text-zinc-100 mb-1">
+                                        <h4 className="text-white font-vertiga-bold font-semibold text-sm group-hover:text-zinc-100 mb-1">
                                           {service.name[language]}
                                         </h4>
                                         <p className="text-zinc-400 text-xs leading-relaxed group-hover:text-zinc-300">
@@ -765,13 +885,13 @@ export default function Navbar() {
 
                     {/* Language Toggle in Menu */}
                     <div className="pt-6 lg:pt-8 border-t border-zinc-800">
-                      <p className="text-zinc-400 font-outfit text-sm uppercase tracking-wider mb-4">
+                      <p className="text-zinc-400 font-vertiga-regular text-sm uppercase tracking-wider mb-4">
                         Language / Idioma
                       </p>
                       <div className="flex items-center space-x-4">
                         <motion.button
                           onClick={toggleLanguage}
-                          className={`px-4 py-2 rounded-lg font-outfit text-sm transition-all duration-500 ease-out ${
+                          className={`px-4 py-2 rounded-lg font-vertiga-regular text-sm transition-all duration-500 ease-out ${
                             language === 'es' 
                               ? 'bg-white text-black' 
                               : 'bg-zinc-800 text-zinc-400 hover:bg-zinc-700'
@@ -801,7 +921,7 @@ export default function Navbar() {
                         </motion.button>
                         <motion.button
                           onClick={toggleLanguage}
-                          className={`px-4 py-2 rounded-lg font-outfit text-sm transition-all duration-500 ease-out ${
+                          className={`px-4 py-2 rounded-lg font-vertiga-regular text-sm transition-all duration-500 ease-out ${
                             language === 'en' 
                               ? 'bg-white text-black' 
                               : 'bg-zinc-800 text-zinc-400 hover:bg-zinc-700'
@@ -854,7 +974,7 @@ export default function Navbar() {
                           animate={{ opacity: 1, y: 0 }}
                           transition={{ delay: 0.2, duration: 0.4 }}
                         >
-                          <p className="text-zinc-400 font-outfit text-sm uppercase tracking-wider mb-2">
+                          <p className="text-zinc-400 font-vertiga-regular text-sm uppercase tracking-wider mb-2">
                             {content.ourServices}
                           </p>
                           <div className="w-16 h-0.5 bg-gradient-to-r from-white to-transparent" />
@@ -870,7 +990,7 @@ export default function Navbar() {
                               transition={{ delay: 0.3 + serviceIndex * 0.1, duration: 0.4 }}
                               whileHover={{ x: 5 }}
                             >
-                              <h4 className="text-white font-lexend font-bold text-lg lg:text-xl group-hover:text-zinc-100 mb-2">
+                              <h4 className="text-white font-vertiga-bold font-bold text-lg lg:text-xl group-hover:text-zinc-100 mb-2">
                                 {service.name[language]}
                               </h4>
                               <p className="text-zinc-400 text-sm lg:text-base leading-relaxed group-hover:text-zinc-300">
@@ -888,7 +1008,7 @@ export default function Navbar() {
                     
                     {/* Regional Offices */}
                     <div>
-                      <p className="text-zinc-400 font-outfit text-sm uppercase tracking-wider mb-6">
+                      <p className="text-zinc-400 font-vertiga-regular text-sm uppercase tracking-wider mb-6">
                         {content.availableRegions}
                       </p>
                       <div className="space-y-4 lg:space-y-6">
@@ -900,7 +1020,7 @@ export default function Navbar() {
                           >
                             <div className="flex items-start justify-between">
                               <div className="flex-1 min-w-0">
-                                <h4 className="text-white font-lexend font-bold text-lg lg:text-xl group-hover:text-zinc-100">
+                                <h4 className="text-white font-vertiga-bold font-bold text-lg lg:text-xl group-hover:text-zinc-100">
                                   {region.name}
                                 </h4>
                                 <p className="text-zinc-500 font-mono text-xs uppercase tracking-wider mb-3">
@@ -935,19 +1055,19 @@ export default function Navbar() {
 
                     {/* International Contact */}
                     <div>
-                      <p className="text-zinc-400 font-outfit text-sm uppercase tracking-wider mb-6">
+                      <p className="text-zinc-400 font-vertiga-regular text-sm uppercase tracking-wider mb-6">
                         {content.international}
                       </p>
                       <div className="space-y-4 bg-zinc-900/30 p-4 lg:p-6">
                         <div>
                           <p className="text-zinc-500 text-sm">{content.email}</p>
-                          <a href="mailto:hello@hyrk.io" className="text-white text-lg font-outfit hover:text-zinc-300 transition-colors break-all">
+                          <a href="mailto:hello@hyrk.io" className="text-white text-lg font-vertiga-regular hover:text-zinc-300 transition-colors break-all">
                             hello@hyrk.io
                           </a>
                         </div>
                         <div>
                           <p className="text-zinc-500 text-sm">{content.phone}</p>
-                          <a href="tel:+1234567890" className="text-white text-lg font-outfit hover:text-zinc-300 transition-colors">
+                          <a href="tel:+1234567890" className="text-white text-lg font-vertiga-regular hover:text-zinc-300 transition-colors">
                             +1 (234) 567-890
                           </a>
                         </div>
@@ -956,7 +1076,7 @@ export default function Navbar() {
 
                     {/* Social Links */}
                     <div>
-                      <p className="text-zinc-400 font-outfit text-sm uppercase tracking-wider mb-6">
+                      <p className="text-zinc-400 font-vertiga-regular text-sm uppercase tracking-wider mb-6">
                         {content.followUs}
                       </p>
                       <div className="flex flex-wrap gap-4 lg:gap-6">
@@ -964,7 +1084,7 @@ export default function Navbar() {
                           <motion.a
                             key={social}
                             href="#"
-                            className="text-zinc-400 hover:text-white transition-colors duration-300 font-outfit text-sm"
+                            className="text-zinc-400 hover:text-white transition-colors duration-300 font-vertiga-regular text-sm"
                             whileHover={{ scale: 1.05, y: -2 }}
                           >
                             {social}
@@ -993,15 +1113,18 @@ export default function Navbar() {
                 {/* Footer in scroll area */}
                 <div className="mt-16 lg:mt-24 pt-8 border-t border-zinc-800">
                   <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between space-y-4 lg:space-y-0">
-                    <div className="flex items-center space-x-2">
-                      <div className="w-6 h-6 bg-gradient-to-r from-white to-zinc-400 flex items-center justify-center">
-                        <span className="text-black font-bold text-xs">H</span>
-                      </div>
-                      <span className="text-white font-lexend font-bold">hyrk.io</span>
+                    <div className="flex items-center">
+                      <Image
+                        src="/img/hyrk logo blanco.svg"
+                        alt="hyrk.io"
+                        width={80}
+                        height={18}
+                        className="h-4 w-auto"
+                      />
                     </div>
                     
                     <div className="flex flex-col lg:flex-row items-start lg:items-center space-y-2 lg:space-y-0 lg:space-x-6">
-                      <div className="flex items-center space-x-2 lg:space-x-4 text-zinc-500 text-xs font-outfit">
+                      <div className="flex items-center space-x-2 lg:space-x-4 text-zinc-500 text-xs font-vertiga-regular">
                         <span>GDL</span>
                         <span>•</span>
                         <span>CDMX</span>
@@ -1010,7 +1133,7 @@ export default function Navbar() {
                         <span>•</span>
                         <span>{content.international}</span>
                       </div>
-                      <p className="text-zinc-500 text-sm font-outfit">
+                      <p className="text-zinc-500 text-sm font-vertiga-regular">
                         © 2024 hyrk.io. {content.copyright}
                       </p>
                     </div>
@@ -1024,6 +1147,6 @@ export default function Navbar() {
           <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-black via-zinc-950/90 to-transparent z-30 pointer-events-none" />
         </div>
       </div>
-    </>
+    </div>
   );
 }

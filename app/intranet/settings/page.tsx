@@ -16,7 +16,7 @@ export default function SettingsPage() {
           className="space-y-4"
         >
           <div className="text-6xl mb-4">⚙️</div>
-          <h1 className="text-3xl font-lexend font-bold text-white">
+          <h1 className="text-3xl font-vertiga-black text-white">
             {language === 'en' ? 'System Settings' : 'Configuración del Sistema'}
           </h1>
           <p className="text-zinc-400 max-w-md mx-auto">

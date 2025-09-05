@@ -1,6 +1,7 @@
 'use client';
 
 import { SignIn } from "@clerk/nextjs";
+import Image from "next/image";
 import { motion } from "motion/react";
 
 export default function SignInPage() {
@@ -13,13 +14,16 @@ export default function SignInPage() {
           transition={{ duration: 0.5 }}
           className="text-center mb-8"
         >
-          <div className="flex items-center justify-center space-x-2 mb-4">
-            <div className="w-10 h-10 bg-gradient-to-r from-white to-zinc-400 flex items-center justify-center">
-              <span className="text-black font-bold">H</span>
-            </div>
-            <span className="text-white font-lexend font-bold text-2xl">hyrk.io</span>
+          <div className="flex items-center justify-center mb-4">
+            <Image
+              src="/img/hyrk logo blanco.svg"
+              alt="hyrk.io"
+              width={140}
+              height={32}
+              className="h-8 w-auto"
+            />
           </div>
-          <h1 className="text-2xl font-lexend font-bold text-white mb-2">
+          <h1 className="text-2xl font-vertiga-black text-white mb-2">
             Intranet Access
           </h1>
           <p className="text-zinc-400">

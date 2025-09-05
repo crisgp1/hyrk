@@ -1,19 +1,12 @@
 import type { Metadata } from "next";
-import { Lexend, Outfit } from "next/font/google";
+import localFont from "next/font/local";
 import { Analytics } from "@vercel/analytics/next";
 // import { ClerkProvider } from '@clerk/nextjs';
 import { LanguageProvider } from "./contexts/LanguageContext";
 import "./globals.css";
 
-const lexend = Lexend({
-  variable: "--font-lexend",
-  subsets: ["latin"],
-});
-
-const outfit = Outfit({
-  variable: "--font-outfit",
-  subsets: ["latin"],
-});
+// Fonts are now defined in globals.css using @font-face
+// This keeps the variable names for backward compatibility during transition
 
 export const metadata: Metadata = {
   title: "hyrk.io - Software Accelerator & Idea Creator",
@@ -41,7 +34,7 @@ export default function RootLayout({
     // >
       <html lang="es">
         <body
-          className={`${lexend.variable} ${outfit.variable} antialiased`}
+          className="antialiased"
         >
           <LanguageProvider defaultLanguage="es">
             {children}

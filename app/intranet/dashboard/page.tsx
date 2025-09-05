@@ -176,7 +176,7 @@ export default function Dashboard() {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-lexend font-bold text-white">
+          <h1 className="text-3xl font-vertiga-black text-white">
             {language === 'en' ? 'Dashboard' : 'Panel de Control'}
           </h1>
           <p className="text-zinc-400 mt-2">
@@ -224,7 +224,7 @@ export default function Dashboard() {
             
             <h3 className="text-zinc-400 text-sm mb-2">{metric.title[language]}</h3>
             <div className="flex items-end space-x-2">
-              <span className="text-3xl font-lexend font-bold text-white">{metric.value}</span>
+              <span className="text-3xl font-vertiga-black text-white">{metric.value}</span>
               <span className={`text-sm ${metric.trend === 'up' ? 'text-green-400' : metric.trend === 'down' ? 'text-red-400' : 'text-zinc-400'}`}>
                 {metric.change > 0 ? '+' : ''}{metric.change}%
               </span>
@@ -240,7 +240,7 @@ export default function Dashboard() {
         <div className="lg:col-span-2">
           <div className="bg-zinc-900 border border-zinc-800 rounded-xl p-6">
             <div className="flex items-center justify-between mb-6">
-              <h2 className="text-xl font-lexend font-bold text-white">
+              <h2 className="text-xl font-vertiga-black text-white">
                 {language === 'en' ? 'Active Projects' : 'Proyectos Activos'}
               </h2>
               <button className="text-zinc-400 hover:text-white text-sm">
@@ -318,7 +318,7 @@ export default function Dashboard() {
         {/* Recent Activity */}
         <div>
           <div className="bg-zinc-900 border border-zinc-800 rounded-xl p-6">
-            <h2 className="text-xl font-lexend font-bold text-white mb-6">
+            <h2 className="text-xl font-vertiga-black text-white mb-6">
               {language === 'en' ? 'Recent Activity' : 'Actividad Reciente'}
             </h2>
 
@@ -356,7 +356,7 @@ export default function Dashboard() {
 
           {/* Quick Actions */}
           <div className="bg-zinc-900 border border-zinc-800 rounded-xl p-6 mt-6">
-            <h2 className="text-xl font-lexend font-bold text-white mb-6">
+            <h2 className="text-xl font-vertiga-black text-white mb-6">
               {language === 'en' ? 'Quick Actions' : 'Acciones Rápidas'}
             </h2>
 

@@ -45,7 +45,7 @@ export const ClientsSection: React.FC<ClientsSectionProps> = ({ language = 'en' 
           viewport={{ once: true }}
           className="text-center mb-20"
         >
-          <h2 className="text-4xl md:text-6xl font-lexend font-bold text-white mb-6">
+          <h2 className="text-4xl md:text-6xl font-vertiga-black text-white mb-6">
             {t('home.trustedByLeaders', 'Trusted by Industry Leaders')}
           </h2>
           <p className="text-xl text-zinc-400 max-w-2xl mx-auto">

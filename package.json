@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@clerk/nextjs": "^6.25.4",
+    "@gsap/react": "^2.1.2",
     "@vercel/analytics": "^1.5.0",
     "gsap": "^3.13.0",
     "motion": "^12.23.0",

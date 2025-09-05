@@ -59,7 +59,7 @@ export const ClientCard: React.FC<ClientCardProps> = ({
           </span>
         </motion.div>
         
-        <h3 className="text-2xl font-lexend font-bold text-white mb-2 group-hover:text-zinc-50 transition-colors duration-300">
+        <h3 className="text-2xl font-vertiga-black text-white mb-2 group-hover:text-zinc-50 transition-colors duration-300">
           {client.name}
         </h3>
         <p className="text-zinc-400 mb-4 font-mono text-sm group-hover:text-zinc-200 transition-colors duration-300">

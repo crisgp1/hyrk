@@ -398,7 +398,7 @@ export default function ClientsPage() {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-lexend font-bold text-white">
+          <h1 className="text-3xl font-vertiga-black text-white">
             {language === 'en' ? 'Client Management' : 'Gestión de Clientes'}
           </h1>
           <p className="text-zinc-400 mt-2">
@@ -573,7 +573,7 @@ export default function ClientsPage() {
                     {selectedClient.avatar}
                   </div>
                   <div>
-                    <h2 className="text-2xl font-lexend font-bold text-white mb-1">
+                    <h2 className="text-2xl font-vertiga-black text-white mb-1">
                       {selectedClient.name}
                     </h2>
                     <p className="text-zinc-400 mb-1">{selectedClient.industry[language]}</p>

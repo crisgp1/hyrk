@@ -17,7 +17,7 @@ export default function UnauthorizedPage() {
         >
           <div className="text-6xl mb-6">🔒</div>
           
-          <h1 className="text-3xl font-lexend font-bold text-white mb-4">
+          <h1 className="text-3xl font-vertiga-black text-white mb-4">
             Access Denied
           </h1>
           
