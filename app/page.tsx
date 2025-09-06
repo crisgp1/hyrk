@@ -661,9 +661,13 @@ export default function Home() {
           <div className="text-center">
             <button 
               onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-              className="text-3xl font-vertiga-black text-white mb-4 hover:text-zinc-300 transition-colors"
+              className="mb-4 hover:opacity-75 transition-opacity"
             >
-              hyrk.io
+              <img 
+                src="/img/hyrk logo blanco.svg" 
+                alt="hyrk.io" 
+                className="h-12 mx-auto"
+              />
             </button>
             <p className="text-zinc-500 mb-8">
               {t.home.premiumAccelerator}

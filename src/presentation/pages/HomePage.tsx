@@ -18,9 +18,9 @@ export const HomePage: React.FC<HomePageProps> = ({ language = 'en' }) => {
   const { useSlideUpAnimation, useFloatAnimation } = useAnimations();
   
   const heroRef = useRef<HTMLDivElement>(null);
-  const titleRef = useSlideUpAnimation(1.2, 'power3.out', 1);
-  const subtitleRef = useSlideUpAnimation(1, 'power3.out', 0.4);
-  const buttonsRef = useSlideUpAnimation(0.8, 'power3.out', 0.2);
+  const titleRef = useSlideUpAnimation(1.2, 'power3.out', 1) as React.RefObject<HTMLHeadingElement>;
+  const subtitleRef = useSlideUpAnimation(1, 'power3.out', 0.4) as React.RefObject<HTMLParagraphElement>;
+  const buttonsRef = useSlideUpAnimation(0.8, 'power3.out', 0.2) as React.RefObject<HTMLDivElement>;
   const particlesRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {

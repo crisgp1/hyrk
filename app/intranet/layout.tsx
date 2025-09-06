@@ -214,7 +214,7 @@ export default function IntranetLayout({
                         className="overflow-hidden"
                       >
                         <div className="ml-11 mt-1 space-y-1">
-                          {item.subItems.map((subItem) => {
+                          {item.subItems?.map((subItem) => {
                             const isSubActive = pathname === subItem.href;
                             return (
                               <Link
