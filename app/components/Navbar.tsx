@@ -612,7 +612,7 @@ export default function Navbar() {
         ref={navRef}
         className="fixed top-0 left-0 right-0 z-50 px-6 py-4 transition-all duration-300"
       >
-        <div className="max-w-7xl mx-auto flex items-center justify-between">
+        <div className="max-w-7xl mx-auto flex items-center justify-between px-4 sm:px-6 lg:px-8">
           {/* Logo */}
           <motion.button 
             onClick={handleLogoClick}
@@ -626,14 +626,14 @@ export default function Navbar() {
               alt="hyrk.io"
               width={120}
               height={28}
-              className="h-7 w-auto"
+              className="h-6 w-auto sm:h-7 md:h-8 lg:h-7 transition-all duration-300"
               priority
             />
           </motion.button>
 
           {/* Desktop Navigation - Hidden when menu is open */}
-          <div className={`hidden lg:flex items-center space-x-8 transition-opacity duration-300 ${isMenuOpen ? 'opacity-0 pointer-events-none' : 'opacity-100'}`}>
-            <ul className="flex items-center space-x-8">
+          <div className={`hidden lg:flex items-center space-x-4 xl:space-x-8 transition-opacity duration-300 ${isMenuOpen ? 'opacity-0 pointer-events-none' : 'opacity-100'}`}>
+            <ul className="flex items-center space-x-4 xl:space-x-8">
               {navItems.map((item, index) => (
                 <li 
                   key={`${item.name.en}-${item.name.es}`}
@@ -644,7 +644,7 @@ export default function Navbar() {
                 >
                   <button
                     onClick={() => handleNavClick(item.href)}
-                    className={`text-zinc-300 hover:text-white transition-colors duration-300 font-vertiga-regular font-medium relative ${
+                    className={`text-zinc-300 hover:text-white transition-colors duration-300 font-vertiga-regular font-medium relative text-sm lg:text-base ${
                       activeItem === item.href ? 'text-white' : ''
                     }`}
                   >
@@ -694,7 +694,7 @@ export default function Navbar() {
               onClick={handleIntranetClick}
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              className="flex items-center space-x-2 bg-zinc-800 text-white px-4 py-2 rounded-lg font-medium hover:bg-zinc-700 transition-colors duration-300 border border-zinc-700"
+              className="flex items-center space-x-1 lg:space-x-2 bg-zinc-800 text-white px-3 py-2 lg:px-4 lg:py-2 rounded-lg font-medium text-sm lg:text-base hover:bg-zinc-700 transition-colors duration-300 border border-zinc-700"
             >
               <span>🔐</span>
               <span>Intranet</span>
@@ -705,7 +705,7 @@ export default function Navbar() {
               onClick={handleGetStartedClick}
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              className="bg-white text-black px-6 py-2 font-semibold hover:bg-zinc-200 transition-colors duration-300"
+              className="bg-white text-black px-4 py-2 lg:px-6 lg:py-2 font-semibold text-sm lg:text-base hover:bg-zinc-200 transition-colors duration-300 rounded-lg"
             >
               {content.getStarted}
             </motion.button>
@@ -714,12 +714,12 @@ export default function Navbar() {
           {/* Menu Button (Desktop & Mobile) */}
           <button
             onClick={toggleMenu}
-            className="lg:flex relative w-8 h-8 flex flex-col justify-center items-center z-50"
+            className="relative w-8 h-8 sm:w-10 sm:h-10 flex flex-col justify-center items-center z-50 ml-2 sm:ml-4"
           >
-            <div ref={hamburgerRef} className="w-6 h-4 relative">
-              <span className="absolute w-6 h-0.5 bg-white top-0 left-0 transform transition-all duration-300"></span>
-              <span className="absolute w-6 h-0.5 bg-white top-1/2 left-0 transform -translate-y-1/2 transition-all duration-300"></span>
-              <span className="absolute w-6 h-0.5 bg-white bottom-0 left-0 transform transition-all duration-300"></span>
+            <div ref={hamburgerRef} className="w-5 h-3 sm:w-6 sm:h-4 relative">
+              <span className="absolute w-5 h-0.5 sm:w-6 sm:h-0.5 bg-white top-0 left-0 transform transition-all duration-300"></span>
+              <span className="absolute w-5 h-0.5 sm:w-6 sm:h-0.5 bg-white top-1/2 left-0 transform -translate-y-1/2 transition-all duration-300"></span>
+              <span className="absolute w-5 h-0.5 sm:w-6 sm:h-0.5 bg-white bottom-0 left-0 transform transition-all duration-300"></span>
             </div>
           </button>
         </div>
@@ -755,26 +755,26 @@ export default function Navbar() {
               WebkitOverflowScrolling: 'touch'
             }}
           >
-            <div className="min-h-screen flex items-center justify-center pt-24 px-4 pb-4 sm:pt-28 sm:px-6 sm:pb-6 lg:pt-32 lg:px-8 lg:pb-8">
+            <div className="min-h-screen flex items-start sm:items-center justify-center pt-20 px-4 pb-4 sm:pt-24 sm:px-6 sm:pb-6 lg:pt-32 lg:px-8 lg:pb-8">
               <div className="w-full max-w-7xl mx-auto">
                 
                 {/* Main Navigation Grid */}
-                <div className={`grid gap-8 lg:gap-12 xl:gap-16 transition-all duration-700 ease-out ${
+                <div className={`grid gap-6 sm:gap-8 lg:gap-12 xl:gap-16 transition-all duration-700 ease-out ${
                   expandedService 
-                    ? 'grid-cols-1 lg:grid-cols-2 xl:grid-cols-3' 
-                    : 'grid-cols-1 lg:grid-cols-1 xl:grid-cols-2'
+                    ? 'grid-cols-1 md:grid-cols-1 lg:grid-cols-2 xl:grid-cols-3' 
+                    : 'grid-cols-1 md:grid-cols-1 lg:grid-cols-1 xl:grid-cols-2'
                 }`}>
                   
                   {/* Left Column - Menu Items */}
-                  <div className="space-y-6 lg:space-y-8">
-                    <div className="mb-8 lg:mb-12">
-                      <p className="text-zinc-400 font-vertiga-regular text-sm uppercase tracking-wider mb-2">
+                  <div className="space-y-4 sm:space-y-6 lg:space-y-8">
+                    <div className="mb-6 sm:mb-8 lg:mb-12">
+                      <p className="text-zinc-400 font-vertiga-regular text-xs sm:text-sm uppercase tracking-wider mb-2">
                         {content.navigation}
                       </p>
-                      <div className="w-16 h-0.5 bg-gradient-to-r from-white to-transparent"></div>
+                      <div className="w-12 sm:w-16 h-0.5 bg-gradient-to-r from-white to-transparent"></div>
                     </div>
                     
-                    <nav className="space-y-6 lg:space-y-8">
+                    <nav className="space-y-4 sm:space-y-6 lg:space-y-8">
                       {navItems.map((item, index) => (
                         <React.Fragment key={item.name[language]}>
                           <div className="menu-item">
@@ -783,21 +783,21 @@ export default function Navbar() {
                                 onClick={() => handleNavClick(item.href)}
                                 className="flex items-center justify-between w-full text-left hover:text-white transition-colors duration-300"
                               >
-                                <div className="flex items-center space-x-4 lg:space-x-6 flex-1 min-w-0">
-                                  <span className="menu-number text-zinc-500 font-mono text-sm font-bold flex-shrink-0">
+                                <div className="flex items-center space-x-3 sm:space-x-4 lg:space-x-6 flex-1 min-w-0">
+                                  <span className="menu-number text-zinc-500 font-mono text-xs sm:text-sm font-bold flex-shrink-0">
                                     {item.number}
                                   </span>
                                   <div className="min-w-0 flex-1">
-                                    <h3 className="text-2xl sm:text-3xl lg:text-4xl xl:text-5xl font-vertiga-bold font-bold text-zinc-200 group-hover:text-white transition-colors duration-300 leading-tight">
+                                    <h3 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-vertiga-bold font-bold text-zinc-200 group-hover:text-white transition-colors duration-300 leading-tight">
                                       {item.name[language]}
                                     </h3>
-                                    <p className="text-zinc-400 font-vertiga-regular text-sm lg:text-base mt-1 group-hover:text-zinc-300 transition-colors duration-300 leading-relaxed">
+                                    <p className="text-zinc-400 font-vertiga-regular text-xs sm:text-sm lg:text-base mt-1 group-hover:text-zinc-300 transition-colors duration-300 leading-relaxed">
                                       {item.description[language]}
                                     </p>
                                   </div>
                                 </div>
                                 <motion.div
-                                  className="w-8 h-8 border border-zinc-600 flex items-center justify-center group-hover:border-white group-hover:bg-white group-hover:text-black transition-all duration-300 flex-shrink-0 ml-4"
+                                  className="w-6 h-6 sm:w-8 sm:h-8 border border-zinc-600 flex items-center justify-center group-hover:border-white group-hover:bg-white group-hover:text-black transition-all duration-300 flex-shrink-0 ml-2 sm:ml-4"
                                   whileHover={{ 
                                     scale: 1.1,
                                     transition: { type: "spring", stiffness: 400, damping: 25 }
@@ -814,7 +814,7 @@ export default function Navbar() {
                                   }}
                                 >
                                   <motion.span 
-                                    className="text-sm"
+                                    className="text-xs sm:text-sm"
                                     initial={false}
                                     animate={{ 
                                       opacity: item.href === '#services' && expandedService ? 0.9 : 1,

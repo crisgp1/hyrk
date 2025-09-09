@@ -241,7 +241,7 @@ export default function Home() {
     <div className="min-h-screen bg-zinc-950 text-white font-vertiga-regular">
       <Navbar />
       {/* Hero Section */}
-      <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
+      <section className="relative min-h-screen flex items-center justify-center overflow-hidden px-4 sm:px-6 lg:px-8">
         <div className="absolute inset-0 bg-gradient-to-br from-zinc-900 via-zinc-950 to-black"></div>
         
         {/* Dynamic geometric background */}
@@ -249,8 +249,8 @@ export default function Home() {
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_transparent_0%,_rgba(0,0,0,0.3)_100%)]"></div>
           
           {/* Animated grid */}
-          <div className="absolute inset-0 opacity-20">
-            <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.1)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.1)_1px,transparent_1px)] bg-[size:100px_100px] [mask:radial-gradient(ellipse_at_center,black_40%,transparent_70%)]" />
+          <div className="absolute inset-0 opacity-10 sm:opacity-20">
+            <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.1)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.1)_1px,transparent_1px)] bg-[size:50px_50px] sm:bg-[size:100px_100px] [mask:radial-gradient(ellipse_at_center,black_40%,transparent_70%)]" />
           </div>
 
           {/* Floating particles */}
@@ -258,7 +258,7 @@ export default function Home() {
             {particles.map((particle, i) => (
               <div
                 key={i}
-                className="absolute w-2 h-2 bg-gradient-to-r from-zinc-400 to-zinc-600 rounded-full"
+                className="absolute w-1 h-1 sm:w-2 sm:h-2 bg-gradient-to-r from-zinc-400 to-zinc-600 rounded-full"
                 style={{
                   left: `${particle.left}%`,
                   top: `${particle.top}%`,
@@ -269,15 +269,15 @@ export default function Home() {
           </div>
 
           {/* Gradient orbs */}
-          <div className="absolute top-20 left-20 w-96 h-96 bg-gradient-to-r from-zinc-800/30 to-zinc-900/30 rounded-full blur-3xl animate-pulse" />
-          <div className="absolute bottom-20 right-20 w-96 h-96 bg-gradient-to-r from-zinc-700/20 to-zinc-800/20 rounded-full blur-3xl animate-pulse" style={{animationDelay: '1s'}} />
+          <div className="absolute top-10 left-10 sm:top-20 sm:left-20 w-48 h-48 sm:w-96 sm:h-96 bg-gradient-to-r from-zinc-800/30 to-zinc-900/30 rounded-full blur-2xl sm:blur-3xl animate-pulse" />
+          <div className="absolute bottom-10 right-10 sm:bottom-20 sm:right-20 w-48 h-48 sm:w-96 sm:h-96 bg-gradient-to-r from-zinc-700/20 to-zinc-800/20 rounded-full blur-2xl sm:blur-3xl animate-pulse" style={{animationDelay: '1s'}} />
         </div>
 
-        <div ref={heroRef} className="relative z-10 text-center max-w-6xl mx-auto px-4">
-          <div className="mb-8">
+        <div ref={heroRef} className="relative z-10 text-center max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="mb-6 sm:mb-8">
             <h1 
               ref={titleRef}
-              className="text-6xl md:text-7xl lg:text-8xl font-vertiga-black mb-6 tracking-tight leading-none"
+              className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-vertiga-black mb-4 sm:mb-6 tracking-tight leading-none"
             >
               <span className="bg-gradient-to-r from-white via-zinc-200 to-zinc-400 bg-clip-text text-transparent hover:from-zinc-200 hover:via-white hover:to-zinc-300 transition-all duration-500">
                 hyrk.io
@@ -285,7 +285,7 @@ export default function Home() {
             </h1>
             <p 
               ref={subtitleRef}
-              className="text-xl md:text-2xl lg:text-3xl text-zinc-400 max-w-4xl mx-auto leading-relaxed font-light"
+              className="text-base sm:text-lg md:text-xl lg:text-2xl xl:text-3xl text-zinc-400 max-w-5xl mx-auto leading-relaxed font-light px-2 sm:px-0"
             >
               <span className="text-white font-medium">{t.home.subtitle1}</span> & <span className="text-white font-medium">{t.home.subtitle2}</span> {t.home.subtitle3} <span className="text-zinc-300">{t.home.subtitle4}</span>, <span className="text-zinc-300">{t.home.subtitle5}</span>, y <span className="text-zinc-300">{t.home.subtitle6}</span> {t.home.subtitle7}.
             </p>
@@ -293,13 +293,13 @@ export default function Home() {
 
           <div 
             ref={buttonsRef}
-            className="flex gap-6 flex-col sm:flex-row justify-center"
+            className="flex gap-4 sm:gap-6 flex-col sm:flex-row justify-center items-center"
           >
             <motion.button
               onClick={handleStartProject}
               whileHover={{ scale: 1.05, boxShadow: "0 20px 40px rgba(255,255,255,0.1)" }}
               whileTap={{ scale: 0.95 }}
-              className="bg-white text-black px-10 py-4 rounded-xl font-semibold text-lg hover:bg-zinc-200 transition-all duration-300 relative overflow-hidden group"
+              className="bg-white text-black px-6 py-3 sm:px-8 sm:py-4 lg:px-10 lg:py-4 rounded-xl font-semibold text-base sm:text-lg hover:bg-zinc-200 transition-all duration-300 relative overflow-hidden group w-full sm:w-auto max-w-xs sm:max-w-none"
             >
               <span className="relative z-10">{t.home.startYourProject}</span>
               <div className="absolute inset-0 bg-gradient-to-r from-zinc-100 to-white transform translate-x-full group-hover:translate-x-0 transition-transform duration-300" />
@@ -308,7 +308,7 @@ export default function Home() {
               onClick={handleViewWork}
               whileHover={{ scale: 1.05, borderColor: "rgba(255,255,255,0.5)" }}
               whileTap={{ scale: 0.95 }}
-              className="border-2 border-zinc-700 text-white px-10 py-4 rounded-xl font-semibold text-lg hover:bg-zinc-900/50 transition-all duration-300 backdrop-blur-sm"
+              className="border-2 border-zinc-700 text-white px-6 py-3 sm:px-8 sm:py-4 lg:px-10 lg:py-4 rounded-xl font-semibold text-base sm:text-lg hover:bg-zinc-900/50 transition-all duration-300 backdrop-blur-sm w-full sm:w-auto max-w-xs sm:max-w-none"
             >
               {t.home.viewOurWork}
             </motion.button>
@@ -317,19 +317,19 @@ export default function Home() {
       </section>
 
       {/* Clients Section */}
-      <section id="clients" className="py-32 bg-zinc-900">
-        <div className="max-w-7xl mx-auto px-4">
+      <section id="clients" className="py-16 sm:py-24 lg:py-32 bg-zinc-900">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
             viewport={{ once: true }}
-            className="text-center mb-20"
+            className="text-center mb-12 sm:mb-16 lg:mb-20"
           >
-            <h2 className="text-4xl md:text-6xl font-vertiga-black text-white mb-6">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-vertiga-black text-white mb-4 sm:mb-6">
               {t.home.trustedByLeaders}
             </h2>
-            <p className="text-xl text-zinc-400 max-w-2xl mx-auto">
+            <p className="text-base sm:text-lg lg:text-xl text-zinc-400 max-w-3xl mx-auto px-4 sm:px-0">
               {t.home.trustedByLeadersDesc}
             </p>
           </motion.div>
@@ -339,10 +339,10 @@ export default function Home() {
             initial="initial"
             whileInView="animate"
             viewport={{ once: true }}
-            className="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-12"
+            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 sm:gap-8 lg:gap-12"
           >
             {clients.map((client, index) => (
-              <div key={index} className="flex flex-col space-y-4">
+              <div key={index} className="flex flex-col space-y-3 sm:space-y-4">
                 {/* Apple-style Browser Window */}
                 <motion.div
                   ref={(el) => {
@@ -385,47 +385,47 @@ export default function Home() {
                   }}
                 >
                   {/* Browser Window Container */}
-                  <div className="bg-zinc-800/90 backdrop-blur-sm rounded-xl border border-zinc-700/50 overflow-hidden">
+                  <div className="bg-zinc-800/90 backdrop-blur-sm rounded-lg sm:rounded-xl border border-zinc-700/50 overflow-hidden">
                     {/* Browser Title Bar */}
-                    <div className="flex items-center justify-between px-4 py-3 bg-zinc-900/80 border-b border-zinc-700/30">
+                    <div className="flex items-center justify-between px-3 py-2 sm:px-4 sm:py-3 bg-zinc-900/80 border-b border-zinc-700/30">
                       {/* Traffic Light Buttons */}
-                      <div className="flex space-x-2">
-                        <div className="w-3 h-3 rounded-full bg-red-500 group-hover:bg-red-400 transition-colors duration-200"></div>
-                        <div className="w-3 h-3 rounded-full bg-yellow-500 group-hover:bg-yellow-400 transition-colors duration-200"></div>
-                        <div className="w-3 h-3 rounded-full bg-green-500 group-hover:bg-green-400 transition-colors duration-200"></div>
+                      <div className="flex space-x-1.5 sm:space-x-2">
+                        <div className="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-red-500 group-hover:bg-red-400 transition-colors duration-200"></div>
+                        <div className="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-yellow-500 group-hover:bg-yellow-400 transition-colors duration-200"></div>
+                        <div className="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-green-500 group-hover:bg-green-400 transition-colors duration-200"></div>
                       </div>
                       
                       {/* URL Bar */}
-                      <div className="flex-1 mx-4">
-                        <div className="bg-zinc-800/50 rounded-md px-3 py-1 text-center">
-                          <span className="text-zinc-400 text-xs font-mono">
+                      <div className="flex-1 mx-2 sm:mx-4">
+                        <div className="bg-zinc-800/50 rounded-md px-2 py-0.5 sm:px-3 sm:py-1 text-center">
+                          <span className="text-zinc-400 text-[10px] sm:text-xs font-mono">
                             {client.domain}
                           </span>
                         </div>
                       </div>
                       
                       {/* Window Controls */}
-                      <div className="flex space-x-1">
-                        <div className="w-4 h-4 bg-zinc-700/50 rounded-sm"></div>
+                      <div className="hidden sm:flex space-x-1">
+                        <div className="w-3 h-3 sm:w-4 sm:h-4 bg-zinc-700/50 rounded-sm"></div>
                       </div>
                     </div>
 
                     {/* Website Content Area */}
-                    <div className="relative h-64 bg-zinc-900/50">
+                    <div className="relative h-48 sm:h-56 lg:h-64 bg-zinc-900/50">
                       {/* Coming Soon Badge */}
                       {client.comingSoon && (
-                        <div className="absolute top-4 right-4 z-20">
-                          <div className="bg-gradient-to-r from-orange-500 to-red-500 px-3 py-1 rounded-full border border-orange-400/50 shadow-lg">
-                            <span className="text-white text-xs font-vertiga-bold uppercase tracking-wider">
+                        <div className="absolute top-2 right-2 sm:top-4 sm:right-4 z-20">
+                          <div className="bg-gradient-to-r from-orange-500 to-red-500 px-2 py-0.5 sm:px-3 sm:py-1 rounded-full border border-orange-400/50 shadow-lg">
+                            <span className="text-white text-[10px] sm:text-xs font-vertiga-bold uppercase tracking-wider">
                               Coming Soon
                             </span>
                           </div>
                         </div>
                       )}
 
-                      {/* Desktop: Show iframe preview */}
-                      <div className="hidden md:block h-full">
-                        {client.previewEnabled && (
+                      {/* All devices: Show iframe preview */}
+                      <div className="h-full">
+                        {client.previewEnabled ? (
                           <WebsitePreview
                             url={client.url}
                             title={client.name}
@@ -434,22 +434,22 @@ export default function Home() {
                             onLoad={() => console.log(`Preview loaded for ${client.name}`)}
                             onError={(error) => console.warn(`Preview error for ${client.name}:`, error)}
                           />
-                        )}
-                      </div>
-
-                      {/* Mobile: Show click to visit */}
-                      <div className="md:hidden h-full flex items-center justify-center bg-gradient-to-br from-zinc-800 to-zinc-900">
-                        <motion.button
-                          whileHover={{ scale: 1.05 }}
-                          whileTap={{ scale: 0.95 }}
-                          onClick={() => window.open(client.url, '_blank', 'noopener,noreferrer')}
-                          className="bg-white/10 hover:bg-white/20 text-white px-6 py-3 rounded-lg font-vertiga-regular transition-all duration-300 border border-white/20 hover:border-white/30 backdrop-blur-sm"
-                        >
-                          <div className="flex items-center space-x-2">
-                            <span>Ver Sitio</span>
-                            <span>→</span>
+                        ) : (
+                          // Fallback for disabled previews
+                          <div className="h-full flex items-center justify-center bg-gradient-to-br from-zinc-800 to-zinc-900">
+                            <motion.button
+                              whileHover={{ scale: 1.05 }}
+                              whileTap={{ scale: 0.95 }}
+                              onClick={() => window.open(client.url, '_blank', 'noopener,noreferrer')}
+                              className="bg-white/10 hover:bg-white/20 text-white px-4 py-2 sm:px-6 sm:py-3 rounded-lg font-vertiga-regular text-sm transition-all duration-300 border border-white/20 hover:border-white/30 backdrop-blur-sm"
+                            >
+                              <div className="flex items-center space-x-1.5">
+                                <span className="text-xs sm:text-sm">Ver Sitio</span>
+                                <span className="text-xs sm:text-sm">→</span>
+                              </div>
+                            </motion.button>
                           </div>
-                        </motion.button>
+                        )}
                       </div>
                     </div>
                   </div>
@@ -468,7 +468,7 @@ export default function Home() {
                   transition={{ duration: 0.3, ease: "easeInOut" }}
                   className="text-center overflow-hidden"
                 >
-                  <p className="text-zinc-400 text-sm leading-relaxed font-vertiga-regular">
+                  <p className="text-zinc-400 text-xs sm:text-sm leading-relaxed font-vertiga-regular px-2 sm:px-0">
                     {client.description}
                   </p>
                 </motion.div>
@@ -479,19 +479,19 @@ export default function Home() {
       </section>
 
       {/* Expertise Section */}
-      <section id="services" className="py-32 bg-zinc-950">
-        <div className="max-w-7xl mx-auto px-4">
+      <section id="services" className="py-16 sm:py-24 lg:py-32 bg-zinc-950">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
             viewport={{ once: true }}
-            className="text-center mb-20"
+            className="text-center mb-12 sm:mb-16 lg:mb-20"
           >
-            <h2 className="text-4xl md:text-6xl font-vertiga-black text-white mb-6">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-vertiga-black text-white mb-4 sm:mb-6">
               {t.home.ourExpertise}
             </h2>
-            <p className="text-xl text-zinc-400 max-w-3xl mx-auto">
+            <p className="text-base sm:text-lg lg:text-xl text-zinc-400 max-w-4xl mx-auto px-4 sm:px-0">
               {t.home.ourExpertiseDesc}
             </p>
           </motion.div>
@@ -501,7 +501,7 @@ export default function Home() {
             initial="initial"
             whileInView="animate"
             viewport={{ once: true }}
-            className="grid md:grid-cols-2 gap-8"
+            className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8"
           >
             {expertise.map((item, index) => (
               <motion.div
@@ -510,7 +510,7 @@ export default function Home() {
                   expertiseCardsRef.current[index] = el;
                 }}
                 variants={fadeInUp}
-                className="group bg-gradient-to-br from-zinc-900 to-zinc-800 border border-zinc-700 p-8 transition-all duration-500 relative overflow-hidden"
+                className="group bg-gradient-to-br from-zinc-900 to-zinc-800 border border-zinc-700 p-6 sm:p-8 transition-all duration-500 relative overflow-hidden rounded-lg"
                 onMouseEnter={() => {
                   const card = expertiseCardsRef.current[index];
                   if (card) {
@@ -551,9 +551,9 @@ export default function Home() {
                 {/* Glowing accent line */}
                 <div className="absolute top-0 left-0 w-full h-0.5 bg-gradient-to-r from-transparent via-white/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                 
-                <div className="relative z-10 flex items-start gap-6">
+                <div className="relative z-10 flex items-start gap-4 sm:gap-6">
                   <motion.div 
-                    className="text-5xl p-4 bg-zinc-800 group-hover:bg-zinc-700 transition-all duration-300"
+                    className="text-3xl sm:text-4xl lg:text-5xl p-3 sm:p-4 bg-zinc-800 group-hover:bg-zinc-700 transition-all duration-300 rounded-lg flex-shrink-0"
                     whileHover={{ 
                       scale: 1.05,
                       filter: "brightness(1.3)"
@@ -563,16 +563,16 @@ export default function Home() {
                     {item.icon}
                   </motion.div>
                   <div className="flex-1">
-                    <h3 className="text-2xl font-vertiga-black text-white mb-4 group-hover:text-zinc-50 transition-colors duration-300">
+                    <h3 className="text-lg sm:text-xl lg:text-2xl font-vertiga-black text-white mb-3 sm:mb-4 group-hover:text-zinc-50 transition-colors duration-300">
                       {item.title}
                     </h3>
-                    <p className="text-zinc-400 leading-relaxed group-hover:text-zinc-200 transition-colors duration-300">
+                    <p className="text-sm sm:text-base text-zinc-400 leading-relaxed group-hover:text-zinc-200 transition-colors duration-300">
                       {item.description}
                     </p>
                     
                     {/* Animated progress bar */}
                     <motion.div
-                      className="mt-6 h-1 bg-zinc-700 overflow-hidden group-hover:bg-zinc-600 transition-colors duration-300"
+                      className="mt-4 sm:mt-6 h-1 bg-zinc-700 overflow-hidden group-hover:bg-zinc-600 transition-colors duration-300"
                       initial={{ width: 0 }}
                       whileInView={{ width: "100%" }}
                       transition={{ duration: 1, delay: index * 0.2 }}
@@ -593,14 +593,14 @@ export default function Home() {
       </section>
 
       {/* Stats Section */}
-      <section id="about" className="py-32 bg-zinc-900">
-        <div className="max-w-7xl mx-auto px-4">
+      <section id="about" className="py-16 sm:py-24 lg:py-32 bg-zinc-900">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
             viewport={{ once: true }}
-            className="grid md:grid-cols-4 gap-8 text-center"
+            className="grid grid-cols-2 md:grid-cols-4 gap-6 sm:gap-8 text-center"
           >
             {[
               { number: '50+', label: t.home.projectsDelivered },
@@ -616,10 +616,10 @@ export default function Home() {
                 viewport={{ once: true }}
                 className="group"
               >
-                <div className="text-5xl md:text-6xl font-vertiga-black text-white mb-2 group-hover:text-zinc-300 transition-colors">
+                <div className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-vertiga-black text-white mb-2 group-hover:text-zinc-300 transition-colors">
                   {stat.number}
                 </div>
-                <div className="text-zinc-400 font-medium text-lg">
+                <div className="text-zinc-400 font-medium text-sm sm:text-base lg:text-lg">
                   {stat.label}
                 </div>
               </motion.div>
@@ -629,25 +629,25 @@ export default function Home() {
       </section>
 
       {/* CTA Section */}
-      <section id="contact" className="py-32 bg-gradient-to-br from-zinc-950 to-black">
-        <div className="max-w-4xl mx-auto px-4 text-center">
+      <section id="contact" className="py-16 sm:py-24 lg:py-32 bg-gradient-to-br from-zinc-950 to-black">
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
             viewport={{ once: true }}
           >
-            <h2 className="text-4xl md:text-6xl font-vertiga-black text-white mb-6">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-vertiga-black text-white mb-4 sm:mb-6">
               {t.home.readyToTransform}
             </h2>
-            <p className="text-xl text-zinc-400 mb-12 max-w-2xl mx-auto">
+            <p className="text-base sm:text-lg lg:text-xl text-zinc-400 mb-8 sm:mb-12 max-w-3xl mx-auto px-4 sm:px-0">
               {t.home.readyToTransformDesc}
             </p>
             <motion.button
               onClick={handleGetStartedToday}
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              className="bg-white text-black px-12 py-4 rounded-lg font-semibold text-lg hover:bg-zinc-200 transition-colors"
+              className="bg-white text-black px-8 py-3 sm:px-10 sm:py-4 lg:px-12 lg:py-4 rounded-lg font-semibold text-base sm:text-lg hover:bg-zinc-200 transition-colors w-full sm:w-auto max-w-xs sm:max-w-none"
             >
               {t.home.getStartedToday}
             </motion.button>
@@ -656,8 +656,8 @@ export default function Home() {
       </section>
 
       {/* Footer */}
-      <footer className="bg-black py-16 border-t border-zinc-800">
-        <div className="max-w-7xl mx-auto px-4">
+      <footer className="bg-black py-12 sm:py-16 border-t border-zinc-800">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center">
             <button 
               onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
@@ -666,20 +666,20 @@ export default function Home() {
               <img 
                 src="/img/hyrk logo blanco.svg" 
                 alt="hyrk.io" 
-                className="h-12 mx-auto"
+                className="h-8 sm:h-10 lg:h-12 mx-auto"
               />
             </button>
-            <p className="text-zinc-500 mb-8">
+            <p className="text-zinc-500 text-sm sm:text-base mb-6 sm:mb-8">
               {t.home.premiumAccelerator}
             </p>
-            <div className="flex flex-col sm:flex-row items-center justify-center space-y-2 sm:space-y-0 sm:space-x-4 text-zinc-600 text-sm mb-6">
+            <div className="flex flex-col sm:flex-row items-center justify-center space-y-2 sm:space-y-0 sm:space-x-4 text-zinc-600 text-xs sm:text-sm mb-4 sm:mb-6">
               <span>{language === 'es' ? 'Servicios' : 'Services'}</span>
               <span className="hidden sm:block">•</span>
               <span>{language === 'es' ? 'Contacto' : 'Contact'}</span>
               <span className="hidden sm:block">•</span>
               <span>{language === 'es' ? 'Privacidad' : 'Privacy'}</span>
             </div>
-            <div className="text-zinc-600 text-sm">
+            <div className="text-zinc-600 text-xs sm:text-sm">
               © 2024 hyrk.io. {t.home.allRightsReserved}
             </div>
           </div>
