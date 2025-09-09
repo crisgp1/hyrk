@@ -591,18 +591,12 @@ export default function Navbar() {
     }
   };
 
-  const handleIntranetClick = () => {
-    // Navigate to intranet dashboard
-    router.push('/intranet/dashboard');
-  };
 
   const handleStartProjectClick = () => {
-    // Navigate to contact section or intranet
+    // Navigate to contact section
     const contactElement = document.querySelector('#contact');
     if (contactElement) {
       contactElement.scrollIntoView({ behavior: 'smooth' });
-    } else {
-      router.push('/intranet/dashboard');
     }
   };
 
@@ -689,16 +683,6 @@ export default function Navbar() {
               </button>
             </motion.div>
 
-            {/* Intranet Button */}
-            <motion.button
-              onClick={handleIntranetClick}
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              className="flex items-center space-x-1 lg:space-x-2 bg-zinc-800 text-white px-3 py-2 lg:px-4 lg:py-2 rounded-lg font-medium text-sm lg:text-base hover:bg-zinc-700 transition-colors duration-300 border border-zinc-700"
-            >
-              <span>🔐</span>
-              <span>Intranet</span>
-            </motion.button>
 
             {/* CTA Button */}
             <motion.button
